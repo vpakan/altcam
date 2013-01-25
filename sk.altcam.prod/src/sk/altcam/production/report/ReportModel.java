@@ -265,7 +265,7 @@ public class ReportModel {
   private void runOrderReport (){
     String reportFileLocation = getReportFileLocation("orderrep.txt");
     if (reportFileLocation != null){
-      ReportFormatter rf = new ReportFormatter(new int[]{4,16,10,8,8,8,8}, 
+      ReportFormatter rf = new ReportFormatter(new int[]{5,16,10,8,8,8,8}, 
           new int[]{ReportFormatter.ALLIGN_LEFT,
             ReportFormatter.ALLIGN_LEFT,
             ReportFormatter.ALLIGN_RIGHT,
