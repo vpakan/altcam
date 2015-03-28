@@ -4,7 +4,7 @@ import java.text.ParseException;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.TableItem;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Order;
 
 /**
@@ -60,7 +60,7 @@ public class OrderTableCellModifier implements ICellModifier {
         result = order.getMachineId();
         break;
 			case OrderTableLabelProvider.DATE_COLUMN_IND: 
-				result = order.getDate() == null ? "?" : ProductionMonitoring.DISPLAY_DATE_FORMAT.format(order.getDate());
+				result = order.getDate() == null ? "?" : AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(order.getDate());
 				break;
       case OrderTableLabelProvider.NUM_PLANED_ITEMS_COLUMN_IND: 
         result = order.getNumItemsPlanned() + "";
@@ -114,7 +114,7 @@ public class OrderTableCellModifier implements ICellModifier {
     case OrderTableLabelProvider.DATE_COLUMN_IND:
       valueString = ((String)value).trim();
       try {
-        order.setDate(ProductionMonitoring.DISPLAY_DATE_FORMAT.parse(valueString));
+        order.setDate(AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(valueString));
       } catch (ParseException e) {
         order.setDate(null);
       }

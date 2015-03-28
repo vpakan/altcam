@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Order;
 /**
  * Label provider for the TableViewerExample
@@ -69,7 +69,7 @@ public class OrderTableLabelProvider extends LabelProvider implements ITableLabe
       result = order.getMachineId() == null ? "?" : order.getMachineId();
       break;
     case DATE_COLUMN_IND:
-      result = order.getDate() == null ? "?" : ProductionMonitoring.DISPLAY_DATE_FORMAT.format(order.getDate());
+      result = order.getDate() == null ? "?" : AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(order.getDate());
       break;
     case NUM_PLANED_ITEMS_COLUMN_IND:
       result = String.valueOf(order.getNumItemsPlanned());

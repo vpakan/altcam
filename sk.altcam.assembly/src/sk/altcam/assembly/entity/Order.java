@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.lang.Comparable;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 
 public class Order implements Comparable<Order> {
   private String itemNumber;
@@ -71,7 +71,7 @@ public class Order implements Comparable<Order> {
   }
 
   public void setDate(Date date) {
-    this.date = ProductionMonitoring.resetTimeOfDate(date);
+    this.date = AssemblyMonitoring.resetTimeOfDate(date);
   }
 
   public Date getSysDate() {
@@ -148,7 +148,7 @@ public class Order implements Comparable<Order> {
   public Order(String orderNumber, String itemNumber, String machineId , Date date) {
     super();
     this.orderNumber = orderNumber;
-    this.date = ProductionMonitoring.resetTimeOfDate(date);
+    this.date = AssemblyMonitoring.resetTimeOfDate(date);
     this.itemNumber = itemNumber;
     this.machineId = machineId;
   }
@@ -166,7 +166,7 @@ public class Order implements Comparable<Order> {
   }
 
   public int compareTo(Order order) {
-    return ProductionMonitoring.sortString(this.getOrderNumber(),
+    return AssemblyMonitoring.sortString(this.getOrderNumber(),
         order.getOrderNumber());
   }
 }

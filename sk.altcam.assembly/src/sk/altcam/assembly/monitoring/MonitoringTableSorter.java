@@ -2,7 +2,7 @@ package sk.altcam.assembly.monitoring;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Monitoring;
 
 
@@ -45,121 +45,77 @@ public class MonitoringTableSorter extends ViewerSorter {
   
     int result = 0;
     switch (criteria) {
-    case MonitoringTableLabelProvider.ORDER_COLUMN_IND:
-      result = ProductionMonitoring.sortString(monitoring1.getOrderNumber(),
-          monitoring2.getOrderNumber());
-      if (result == 0){
-        result = ProductionMonitoring.sortInt(monitoring1.getOrder(),
-            monitoring2.getOrder());
-      }
+    case MonitoringTableLabelProvider.DATE_COLUMN_IND:
+      result = AssemblyMonitoring.sortDate(monitoring1.getDate(), monitoring2
+          .getDate());
+      break;
+    case MonitoringTableLabelProvider.SHIFT_NUMBER_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getShift(),
+          monitoring2.getShift());
       break;
     case MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND:
-      result = ProductionMonitoring.sortString(monitoring1.getOrderNumber(),
+      result = AssemblyMonitoring.sortString(monitoring1.getOrderNumber(),
           monitoring2.getOrderNumber());
       break;
     case MonitoringTableLabelProvider.ITEM_NUMBER_COLUMN_IND:
-      result = ProductionMonitoring.sortString(monitoring1.getOrderEntity() == null ? "" : monitoring1.getOrderEntity().getItemNumber(),
+      result = AssemblyMonitoring.sortString(monitoring1.getOrderEntity() == null ? "" : monitoring1.getOrderEntity().getItemNumber(),
           monitoring2.getOrderEntity() == null ? "" : monitoring2.getOrderEntity().getItemNumber());
       break;
-    case MonitoringTableLabelProvider.DATE_COLUMN_IND:
-      result = ProductionMonitoring.sortDate(monitoring1.getDate(), monitoring2
-          .getDate());
+    case MonitoringTableLabelProvider.NORM_COLUMN_IND:
+      result = AssemblyMonitoring.sortDouble(monitoringTableModel.calcNorm(monitoring1),
+          monitoringTableModel.calcNorm(monitoring2));
       break;
-    case MonitoringTableLabelProvider.PLANNED_IDLE_TIME_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getPlannedIdleTime(),
-          monitoring2.getPlannedIdleTime());
+    case MonitoringTableLabelProvider.PIECES_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getPieces(),
+          monitoring2.getPieces());
       break;
-    case MonitoringTableLabelProvider.FORM_SWITCH_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getFormExchange(),
-          monitoring2.getFormExchange());
+    case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getNonOkPieces(),
+          monitoring2.getNonOkPieces());
       break;
-    case MonitoringTableLabelProvider.PRODUCED_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getProduced(),
-          monitoring2.getProduced());
+    case MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoringTableModel.calcSumPieces(monitoring1),
+          monitoringTableModel.calcSumPieces(monitoring2));
       break;
-    case MonitoringTableLabelProvider.NABEHOVE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getNabehove(),
-          monitoring2.getNabehove());
+    case MonitoringTableLabelProvider.BREAK_TIME_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getBreakTime(),
+          monitoring2.getPieces());
       break;
-    case MonitoringTableLabelProvider.PRESTREKY_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getPrestreky(),
-          monitoring2.getPrestreky());
+    case MonitoringTableLabelProvider.PAUSE_TIME_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getPauseTime(),
+          monitoring2.getPieces());
       break;
-    case MonitoringTableLabelProvider.NEDOSTREKY_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getNedostreky(),
-          monitoring2.getNedostreky());
+    case MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND:
+      result = AssemblyMonitoring.sortDate(monitoring1.getFromTime(),
+          monitoring2.getFromTime());
       break;
-    case MonitoringTableLabelProvider.ZHORENE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getZhorene(),
-          monitoring2.getZhorene());
+    case MonitoringTableLabelProvider.TIME_TO_COLUMN_IND:
+      result = AssemblyMonitoring.sortDate(monitoring1.getToTime(),
+          monitoring2.getToTime());
       break;
-    case MonitoringTableLabelProvider.VADA_MATERIALU_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getVadaMaterialu(),
-          monitoring2.getVadaMaterialu());
+    case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND:
+      result = AssemblyMonitoring.sortDate(monitoringTableModel.calcEffectiveTime(monitoring1),
+          monitoringTableModel.calcEffectiveTime(monitoring2));
       break;
-    case MonitoringTableLabelProvider.DEFORMACIE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getDeformacie(),
-          monitoring2.getDeformacie());
+    case MonitoringTableLabelProvider.SIGN_COLUMN_IND:
+      result = AssemblyMonitoring.sortString(monitoringTableModel.calcSign(monitoring1),
+          monitoringTableModel.calcSign(monitoring2));
       break;
-    case MonitoringTableLabelProvider.POSKODENY_ZASTREK_ZALIS_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getPoskodenyZastrekZalis(),
-          monitoring2.getPoskodenyZastrekZalis());
+    case MonitoringTableLabelProvider.COMMENT_COLUMN_IND:
+      result = AssemblyMonitoring.sortString(monitoring1.getComment(),
+          monitoring2.getComment());
       break;
-    case MonitoringTableLabelProvider.CHYBAJUCI_ZASTREK_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getChybajuciZastrek(),
-          monitoring2.getChybajuciZastrek());
+    case MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND:
+      result = AssemblyMonitoring.sortDouble(monitoringTableModel.calcEfficiency(monitoring1),
+          monitoringTableModel.calcEfficiency(monitoring2));
       break;
-    case MonitoringTableLabelProvider.BOD_VSTREKU_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getBodVstreku(),
-          monitoring2.getBodVstreku());
+    case MonitoringTableLabelProvider.NOK_PERCENT_COLUMN_IND:
+      result = AssemblyMonitoring.sortDouble(monitoringTableModel.calcPercentNonOkPieces(monitoring1),
+          monitoringTableModel.calcPercentNonOkPieces(monitoring2));
       break;
-    case MonitoringTableLabelProvider.PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getPritomnostPruznychElementov(),
-          monitoring2.getPritomnostPruznychElementov());
-      break;
-    case MonitoringTableLabelProvider.VYHADZANE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getVyhadzane(),
-          monitoring2.getVyhadzane());
-      break;
-    case MonitoringTableLabelProvider.PRESTREKY_V_OTVOROCH_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getPrestrekyVOtvoroch(),
-          monitoring2.getPrestrekyVOtvoroch());
-      break;
-    case MonitoringTableLabelProvider.FARBA_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getFarba(),
-          monitoring2.getFarba());
-      break;
-    case MonitoringTableLabelProvider.ZASTAVENIE_STROJA_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getZastavenieStroja(),
-          monitoring2.getZastavenieStroja());
-      break;
-    case MonitoringTableLabelProvider.INE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getIne(),
-          monitoring2.getIne());
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_STROJ_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getNedolisovaneStroj(),
-          monitoring2.getNedolisovaneStroj());
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_FORMA_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getNedolisovaneForma(),
-          monitoring2.getNedolisovaneForma());
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_PERIFERIE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoring1.getNedolisovanePeriferie(),
-          monitoring2.getNedolisovanePeriferie());
-      break;
-    case MonitoringTableLabelProvider.SUM_PPM_BROKEN_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoringTableModel.calcSumPpmBroken(monitoring1),
-          monitoringTableModel.calcSumBroken(monitoring2));
-      break;
-    case MonitoringTableLabelProvider.SUM_BROKEN_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoringTableModel.calcSumBroken(monitoring1),
-          monitoringTableModel.calcSumBroken(monitoring2));
-      break;
-    case MonitoringTableLabelProvider.SUM_TOTAL_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(monitoringTableModel.calcSumTotal(monitoring1),
-          monitoringTableModel.calcSumTotal(monitoring2));
+    case MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND:
+      result = AssemblyMonitoring.sortDouble(monitoringTableModel.calcEffectivity(monitoring1),
+          monitoringTableModel.calcEffectivity(monitoring2));
       break;
     default:
       break;

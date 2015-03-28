@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 
 public class OrderTable extends Composite{
   private Table table = null;
@@ -47,7 +47,7 @@ public class OrderTable extends Composite{
       table.setHeaderVisible(true);
       for (int index = 0 ; index < OrderTableLabelProvider.COLUMN_NAMES.length ; index ++){
         TableColumn column = new TableColumn(table, 
-          (index < 3 ? SWT.LEFT : SWT.RIGHT),
+          (index < 4 ? SWT.LEFT : SWT.RIGHT),
           index);   
         column.setText(OrderTableLabelProvider.COLUMN_NAMES[index]);
       }    
@@ -59,19 +59,19 @@ public class OrderTable extends Composite{
     add = new Button(buttons,SWT.PUSH | SWT.CENTER);
     add.setText(" Pridaj ");
     GridData gdAdd = new GridData ();
-    gdAdd.widthHint = ProductionMonitoring.BUTTONS_MIN_WIDTH;
+    gdAdd.widthHint = AssemblyMonitoring.BUTTONS_MIN_WIDTH;
     add.setLayoutData(gdAdd);
     delete = new Button(buttons,SWT.PUSH | SWT.CENTER);
     delete.setText(" Zmaz ");
     GridData gdDelete = new GridData ();
-    gdDelete.widthHint = ProductionMonitoring.BUTTONS_MIN_WIDTH;
+    gdDelete.widthHint = AssemblyMonitoring.BUTTONS_MIN_WIDTH;
     delete.setLayoutData(gdDelete);
     Label dummyLabel = new Label(buttons,SWT.NONE);
     GridData gridDataDummy = new GridData(GridData.FILL_HORIZONTAL);
     dummyLabel.setLayoutData(gridDataDummy);
     close = new Button(buttons,SWT.PUSH | SWT.CENTER);
     GridData gdClose = new GridData ();
-    gdClose.widthHint = ProductionMonitoring.BUTTONS_MIN_WIDTH;
+    gdClose.widthHint = AssemblyMonitoring.BUTTONS_MIN_WIDTH;
     close.setLayoutData(gdClose);
     close.setText(" Zavri ");
   }

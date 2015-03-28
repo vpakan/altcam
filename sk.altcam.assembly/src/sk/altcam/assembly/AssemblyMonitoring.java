@@ -10,7 +10,8 @@ import java.util.GregorianCalendar;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -23,10 +24,12 @@ import sk.altcam.assembly.order.OrderTable;
 import sk.altcam.assembly.order.OrderTableModel;
 import sk.altcam.assembly.report.ReportControl;
 import sk.altcam.assembly.report.ReportModel;
-import sk.altcam.properties.MonitoringAssemblyProperties;
+import sk.altcam.users.AssemblyUsersModel;
+import sk.altcam.users.AdminControl;
 
-public class ProductionMonitoring {
+public class AssemblyMonitoring {
   public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+  public static final SimpleDateFormat DISPLAY_TIME_FORMAT = new SimpleDateFormat("HH:mm");
   public static final SimpleDateFormat STORAGE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy'T'HH:mm:ss.S");
   public static final GregorianCalendar GC = new GregorianCalendar();
   public static final int BUTTONS_MIN_WIDTH = 80;
@@ -38,15 +41,15 @@ public class ProductionMonitoring {
   private ReportControl reportControl;
   private OrderTable orderTable;
   private OrderTableModel orderTableModel;
-  private MonitoringAssemblyProperties monitoringProductionProperties;
-  
-  public MonitoringAssemblyProperties getMonitoringProductionProperties() {
-    return monitoringProductionProperties;
-  }
-
+  private AdminControl adminControl;
+  private MonitoringTableModel monitoringTableModel;
+  private AssemblyUsersModel assemblyUsersModel;
+  private TabItem tiAdmin;
+  private TabItem tiReports;
+    
   static {
-    ProductionMonitoring.DECIMAL_FORMAT.setMinimumFractionDigits(6);
-    ProductionMonitoring.DECIMAL_FORMAT.setMaximumFractionDigits(6);
+    AssemblyMonitoring.DECIMAL_FORMAT.setMinimumFractionDigits(2);
+    AssemblyMonitoring.DECIMAL_FORMAT.setMaximumFractionDigits(2);
   }
 
   /**
@@ -54,33 +57,40 @@ public class ProductionMonitoring {
    */
   public static void main(String[] args) {
     initializeDataLocation();
-    new ProductionMonitoring().run();
+    new AssemblyMonitoring().run();
   }
 
   private void run(){
     Shell shell = new Shell();
-    shell.setText("Production Monitoring");
-
+    shell.setText("Monitoring montaze");
     // Set layout for shell
-    FillLayout layout = new FillLayout();
+    GridLayout layout = new GridLayout(1,false);
     shell.setLayout(layout);
+    shell.setLayoutData(new GridData(GridData.FILL_BOTH));
     Composite composite = new Composite(shell, SWT.NONE);
     createContent(composite);
-    initialize();
+    assemblyUsersModel = new AssemblyUsersModel(adminControl);
     shell.addDisposeListener(new DisposeListener() {
-
       public void widgetDisposed(DisposeEvent e) {
         dispose();     
       }
-      
     });
-
-    // Ask the shell to display its content
-    shell.open();
-    Display display = shell.getDisplay();
-    while (!shell.isDisposed()) {
-      if (!display.readAndDispatch())
-        display.sleep();
+    LoginScreen.logIn(Display.getCurrent(), assemblyUsersModel);
+    if (assemblyUsersModel.getLoggedUser() != null){
+      initialize();
+      // Ask the shell to display its content
+      shell.open();
+      if (assemblyUsersModel.getLoggedUser() != null){
+        if (!assemblyUsersModel.getLoggedUser().isAdmin()){
+          tiReports.dispose();
+          tiAdmin.dispose();
+        }
+        Display display = shell.getDisplay();
+        while (!shell.isDisposed()) {
+          if (!display.readAndDispatch())
+            display.sleep();
+        }
+      }
     }
   }
   
@@ -97,31 +107,36 @@ public class ProductionMonitoring {
   }
   
   private void createContent(Composite parent){
-    parent.setLayout(new FillLayout());
-    final TabFolder tabFolder = new TabFolder (parent, SWT.BORDER);
-    TabItem monitoring = new TabItem (tabFolder, SWT.NONE);
+    GridLayout layout = new GridLayout(1,false);
+    parent.setLayout(layout);
+    parent.setLayoutData(new GridData(GridData.FILL_BOTH));
+    TabFolder tabFolderMain = new TabFolder (parent, SWT.BORDER);
+    tabFolderMain.setLayoutData(new GridData(GridData.FILL_BOTH));
+    TabItem monitoring = new TabItem (tabFolderMain, SWT.NONE);
     monitoring.setText ("Monitoring");
-    monitoringTable = new MonitoringTable(tabFolder, SWT.NONE);
+    monitoringTable = new MonitoringTable(tabFolderMain, SWT.NONE);
     monitoring.setControl(monitoringTable);
-    TabItem orders = new TabItem (tabFolder, SWT.NONE);
+    TabItem orders = new TabItem (tabFolderMain, SWT.NONE);
     orders.setText ("Objednavky");
-    orderTable = new OrderTable(tabFolder, SWT.NONE);
+    orderTable = new OrderTable(tabFolderMain, SWT.NONE);
     orders.setControl(orderTable);
-    TabItem reports = new TabItem (tabFolder, SWT.NONE);
-    reports.setText ("Reporty");
-    reportControl = new ReportControl(tabFolder, SWT.NONE , this);
-    reports.setControl(reportControl);
+    tiReports = new TabItem (tabFolderMain, SWT.NONE);
+    tiReports.setText ("Reporty");
+    reportControl = new ReportControl(tabFolderMain, SWT.NONE);
+    tiReports.setControl(reportControl);
+    tiAdmin = new TabItem(tabFolderMain, SWT.NONE);
+    tiAdmin.setText("Admin");
+    adminControl = new AdminControl(tabFolderMain, SWT.NONE, this);
+    tiAdmin.setControl(adminControl);
   }
   
   private void initialize(){
-    monitoringProductionProperties = new MonitoringAssemblyProperties();
-    monitoringProductionProperties.loadProperties();
-    // Initialize Orders
+	  // Initialize Orders
     orderTableModel = new OrderTableModel(orderTable);
     // Initialize Monitoring
-    new MonitoringTableModel(monitoringTable,orderTableModel);
+    monitoringTableModel = new MonitoringTableModel(monitoringTable,orderTableModel,assemblyUsersModel);
     // Initialize Reports
-    new ReportModel(reportControl,orderTableModel, this);
+    new ReportModel(reportControl,orderTableModel, monitoringTableModel, assemblyUsersModel);
   }
   
   public static int sortString(String input1 , String input2){
@@ -160,6 +175,13 @@ public class ProductionMonitoring {
     result = result < 0 ? -1 : (result > 0) ? 1 : 0;  
     return result;
   }
+  
+  public static int sortDouble(double input1 , double input2){
+    double diff = input1 - input2;
+    int result = diff < 0 ? -1 : (diff > 0) ? 1 : 0;  
+    return result;
+  }
+  
   public static Date getFirstDayOfMonth(Date date){
     GC.setTime(date);
     GC.set(Calendar.MILLISECOND, 0);
@@ -203,8 +225,54 @@ public class ProductionMonitoring {
     
   }
   
+  public static Date addOneDay(Date date){
+    
+    Date result = null;
+    
+    if (date != null){
+      GC.setTime(date);
+      GC.add(Calendar.DAY_OF_MONTH, 1);
+      result = GC.getTime();
+    }
+        
+    return result;
+    
+  }
+  
+  public static Date getTimeDiffHHMM(Date higherDate, Date lowerDate){
+    
+    GC.setTimeInMillis(higherDate.getTime() - lowerDate.getTime());
+    GC.set(Calendar.MILLISECOND, 0);
+    GC.set(Calendar.SECOND, 0);
+    GC.set(Calendar.DAY_OF_MONTH, 1);
+    GC.set(Calendar.MONTH, 0);
+    GC.add(Calendar.HOUR_OF_DAY, -1 * (GC.get(Calendar.ZONE_OFFSET) / 3600000));
+    return GC.getTime();
+    
+  }
+  
+  public static Date addMinutes(Date date, int minutes){
+    
+    GC.setTimeInMillis(date.getTime());
+    GC.add(Calendar.MINUTE,minutes);
+    return GC.getTime();
+    
+  }
+  
+  public static double getDecimalHHMMTime(Date date){
+    
+    GC.setTime(date);
+    GC.set(Calendar.MILLISECOND, 0);
+    GC.set(Calendar.SECOND, 0);
+    GC.set(Calendar.DAY_OF_MONTH, 1);
+    GC.set(Calendar.MONTH, 0);
+       
+    return GC.get(Calendar.HOUR) + (GC.get(Calendar.MINUTE) / 60.0);
+    
+  }
+  
   private static void initializeDataLocation(){
-    DATA_LOCATION = new File(ProductionMonitoring.class
+    DATA_LOCATION = new File(AssemblyMonitoring.class
         .getProtectionDomain()
         .getCodeSource()
         .getLocation()

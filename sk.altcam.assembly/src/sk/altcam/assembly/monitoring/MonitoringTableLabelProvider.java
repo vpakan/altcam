@@ -1,13 +1,14 @@
 package sk.altcam.assembly.monitoring;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Monitoring;
 /**
  * Label provider for the TableViewerExample
@@ -16,94 +17,67 @@ import sk.altcam.assembly.entity.Monitoring;
  */
 public class MonitoringTableLabelProvider extends LabelProvider implements ITableLabelProvider{
   // Set the table column property names
-  private static final String ORDER_COLUMN     = "Poradie";
+  private static final String DATE_COLUMN = "Datum";
+  private static final String SHIFT_COLUMN = "Zmena";
   private static final String ORDER_NUMBER_COLUMN     = "Interna Objednavka";
   private static final String ITEM_NUMBER_COLUMN   = "Cislo vyrobku";
-  private static final String DATE_COLUMN = "Datum";
-  private static final String PRODUCED_COLUMN = "Vyrobene";
-  private static final String PLANNED_IDLE_TIME_COLUMN = "P. prestoj";
-  private static final String FORM_SWITCH_COLUMN = "Vymena f.";
-  private static final String NABEHOVE_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[0];
-  private static final String PRESTREKY_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[1]; 
-  private static final String OTREPY_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[2];
-  private static final String ZHORENE_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[3];
-  private static final String VADA_MATERIALU_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[4];
-  private static final String NEDOSTREKNUTE_OKOLO_ZASTREKU_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[5];
-  private static final String POSKODENY_ZASTREK_ZALIS_COLUMN  = MonitoringTable.BROKEN_COLUMN_LABELS[6];
-  private static final String NEDOLISOVANE_PO_JADRACH_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[7];
-  private static final String BOD_VSTREKU_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[8];
-  private static final String PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[9];
-  private static final String VYHADZANE_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[10];
-  private static final String PRESTREKY_V_OTVOROCH_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[11];
-  private static final String FARBA_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[12];
-  private static final String ZASTAVENIE_STROJA_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[13];
-  private static final String INE_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[14];
-  private static final String NEDOLISOVANE_STROJ_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[15];
-  private static final String NEDOLISOVANE_FORMA_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[16];
-  private static final String NEDOLISOVANE_PERIFERIE_COLUMN = MonitoringTable.BROKEN_COLUMN_LABELS[17];
-  private static final String SUM_PPM_BROKEN_COLUMN = "Zmatky pre ppm";
-  private static final String SUM_BROKEN_COLUMN = "Zmatky spolu";
-  private static final String SUM_TOTAL_COLUMN = "Spolu";
-  public static final int ORDER_COLUMN_IND = 0;
-  public static final int ORDER_NUMBER_COLUMN_IND = 1;
-  public static final int ITEM_NUMBER_COLUMN_IND = 2;
-  public static final int DATE_COLUMN_IND = 3;
-  public static final int PLANNED_IDLE_TIME_COLUMN_IND = 4;
-  public static final int FORM_SWITCH_COLUMN_IND = 5;
-  public static final int PRODUCED_COLUMN_IND = 6;
-  public static final int NABEHOVE_COLUMN_IND = 7;
-  public static final int PRESTREKY_COLUMN_IND = 8; 
-  public static final int NEDOSTREKY_COLUMN_IND = 9;
-  public static final int ZHORENE_COLUMN_IND = 10;
-  public static final int VADA_MATERIALU_COLUMN_IND = 11;
-  public static final int DEFORMACIE_COLUMN_IND = 12;
-  public static final int POSKODENY_ZASTREK_ZALIS_COLUMN_IND  = 13;
-  public static final int CHYBAJUCI_ZASTREK_COLUMN_IND = 14;
-  public static final int BOD_VSTREKU_COLUMN_IND = 15;
-  public static final int PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN_IND = 16;
-  public static final int VYHADZANE_COLUMN_IND = 17;
-  public static final int PRESTREKY_V_OTVOROCH_COLUMN_IND = 18;
-  public static final int FARBA_COLUMN_IND = 19;
-  public static final int ZASTAVENIE_STROJA_COLUMN_IND = 20;
-  public static final int INE_COLUMN_IND = 21;
-  public static final int NEDOLISOVANE_STROJ_COLUMN_IND = 22;
-  public static final int NEDOLISOVANE_FORMA_COLUMN_IND = 23;
-  public static final int NEDOLISOVANE_PERIFERIE_COLUMN_IND = 24;
-  public static final int SUM_PPM_BROKEN_COLUMN_IND = 25;
-  public static final int SUM_BROKEN_COLUMN_IND = 26;
-  public static final int SUM_TOTAL_COLUMN_IND = 27;
+  private static final String NORM_COLUMN = "Norma";
+  private static final String PIECES_COLUMN = "OK ks";
+  private static final String NON_OK_PIECES_COLUMN = "NOK ks";
+  private static final String SUM_PIECES_COLUMN = "Spolu ks";
+  private static final String EFFICIENCY_COLUMN = "Vykon %";
+  private static final String SIGN_COLUMN = "+/-";
+  private static final String EFFECTIVITY_COLUMN = "Efektivita %";
+  private static final String NOK_PERCENT_COLUMN = "NOK %";
+  private static final String TIME_FROM_COLUMN = "Cas od";
+  private static final String TIME_TO_COLUMN = "Cas do";
+  private static final String BREAK_TIME = "Prestavka";
+  private static final String PAUSE_TIME = "Prestoj";
+  private static final String EFFECTIVE_TIME_COLUMN = "Cisty cas";
+  private static final String COMMENT_COLUMN = "Poznamka";
+  public static final int ORDER_NUMBER_COLUMN_IND = 0;
+  public static final int ITEM_NUMBER_COLUMN_IND  = 1;
+  public static final int DATE_COLUMN_IND = 2;
+  public static final int SHIFT_NUMBER_COLUMN_IND = 3;
+  public static final int NORM_COLUMN_IND = 4;
+  public static final int PIECES_COLUMN_IND = 5;
+  public static final int NON_OK_PIECES_COLUMN_IND = 6; 
+  public static final int SUM_PIECES_COLUMN_IND = 7; 
+  public static final int NOK_PERCENT_COLUMN_IND = 8;
+  public static final int TIME_FROM_COLUMN_IND = 9;
+  public static final int TIME_TO_COLUMN_IND = 10; 
+  public static final int BREAK_TIME_IND = 11;
+  public static final int PAUSE_TIME_IND = 12; 
+  public static final int EFFECTIVE_TIME_COLUMN_IND = 13;
+  public static final int EFFICIENCY_COLUMN_IND = 14;
+  public static final int SIGN_COLUMN_IND = 15;
+  public static final int EFFECTIVITY_COLUMN_IND = 16;
+  public static final int COMMENT_COLUMN_IND = 17;
+
   // Set column names
   public static final String[] COLUMN_NAMES = new String[] { 
-    ORDER_COLUMN,
-    ORDER_NUMBER_COLUMN, 
+    ORDER_NUMBER_COLUMN,
     ITEM_NUMBER_COLUMN,
     DATE_COLUMN,
-    PLANNED_IDLE_TIME_COLUMN,
-    FORM_SWITCH_COLUMN,
-    PRODUCED_COLUMN,
-    NABEHOVE_COLUMN,
-    PRESTREKY_COLUMN, 
-    OTREPY_COLUMN,
-    ZHORENE_COLUMN,
-    VADA_MATERIALU_COLUMN,
-    NEDOSTREKNUTE_OKOLO_ZASTREKU_COLUMN,
-    POSKODENY_ZASTREK_ZALIS_COLUMN,
-    NEDOLISOVANE_PO_JADRACH_COLUMN,
-    BOD_VSTREKU_COLUMN,
-    PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN,
-    VYHADZANE_COLUMN,
-    PRESTREKY_V_OTVOROCH_COLUMN,
-    FARBA_COLUMN,
-    ZASTAVENIE_STROJA_COLUMN,
-    INE_COLUMN,
-    NEDOLISOVANE_STROJ_COLUMN,
-    NEDOLISOVANE_FORMA_COLUMN,
-    NEDOLISOVANE_PERIFERIE_COLUMN,
-    SUM_PPM_BROKEN_COLUMN,
-    SUM_BROKEN_COLUMN,
-    SUM_TOTAL_COLUMN};
+    SHIFT_COLUMN,
+    NORM_COLUMN,
+    PIECES_COLUMN,
+    NON_OK_PIECES_COLUMN,
+    SUM_PIECES_COLUMN,
+    NOK_PERCENT_COLUMN,
+    TIME_FROM_COLUMN,
+    TIME_TO_COLUMN,
+    BREAK_TIME,
+    PAUSE_TIME,
+    EFFECTIVE_TIME_COLUMN,
+    EFFICIENCY_COLUMN,
+    SIGN_COLUMN,
+    EFFECTIVITY_COLUMN,
+    COMMENT_COLUMN};
+  
   private static final List<String> COLUMN_NAMES_LIST = Arrays.asList(
     MonitoringTableLabelProvider.COLUMN_NAMES);
+  
   private MonitoringTableModel monitoringTableModel = null;
   
   public MonitoringTableLabelProvider(MonitoringTableModel monitoringTableModel){
@@ -118,8 +92,11 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
     String result = "";
     Monitoring monitoring = (Monitoring) element;
     switch (columnIndex) {
-    case ORDER_COLUMN_IND:
-      result = String.valueOf(monitoring.getOrder());
+    case DATE_COLUMN_IND:
+      result = monitoring.getDate() == null ? "?" : AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(monitoring.getDate());
+      break;
+    case SHIFT_NUMBER_COLUMN_IND:
+      result = String.valueOf(monitoring.getShift());
       break;
     case ORDER_NUMBER_COLUMN_IND:
       result = monitoring.getOrderNumber() == null ? "?" : monitoring.getOrderNumber();
@@ -127,80 +104,48 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
     case ITEM_NUMBER_COLUMN_IND:
       result = monitoring.getOrderEntity() == null || monitoring.getOrderEntity().getItemNumber() == null ? "?" : monitoring.getOrderEntity().getItemNumber();
       break;
-    case DATE_COLUMN_IND:
-      result = monitoring.getDate() == null ? "?" : ProductionMonitoring.DISPLAY_DATE_FORMAT.format(monitoring.getDate());
+    case NORM_COLUMN_IND:
+      result = AssemblyMonitoring.DECIMAL_FORMAT.format(monitoringTableModel.calcNorm(monitoring));
       break;
-    case PLANNED_IDLE_TIME_COLUMN_IND:
-      result = String.valueOf(monitoring.getPlannedIdleTime());
+    case PIECES_COLUMN_IND:
+      result = String.valueOf(monitoring.getPieces());
       break;
-    case FORM_SWITCH_COLUMN_IND:
-      result = String.valueOf(monitoring.getFormExchange());
+    case NON_OK_PIECES_COLUMN_IND:
+      result = String.valueOf(monitoring.getNonOkPieces());
+      break; 
+    case SUM_PIECES_COLUMN_IND:
+      result = String.valueOf(monitoringTableModel.calcSumPieces(monitoring));
       break;
-    case PRODUCED_COLUMN_IND:
-      result = String.valueOf(monitoring.getProduced());
+    case NOK_PERCENT_COLUMN_IND:
+      result = AssemblyMonitoring.DECIMAL_FORMAT.format(monitoringTableModel.calcPercentNonOkPieces(monitoring));
       break;
-    case NABEHOVE_COLUMN_IND:
-      result = String.valueOf(monitoring.getNabehove());
+    case EFFICIENCY_COLUMN_IND:
+      result = AssemblyMonitoring.DECIMAL_FORMAT.format(monitoringTableModel.calcEfficiency(monitoring));
       break;
-    case PRESTREKY_COLUMN_IND:
-      result = String.valueOf(monitoring.getPrestreky());
+    case EFFECTIVITY_COLUMN_IND:
+      result = AssemblyMonitoring.DECIMAL_FORMAT.format(monitoringTableModel.calcEffectivity(monitoring));
       break;
-    case NEDOSTREKY_COLUMN_IND:
-      result = String.valueOf(monitoring.getNedostreky());
+    case TIME_FROM_COLUMN_IND:
+      result = monitoring.getFromTime() == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(monitoring.getFromTime());
       break;
-    case ZHORENE_COLUMN_IND:
-      result = String.valueOf(monitoring.getZhorene());
+    case TIME_TO_COLUMN_IND:
+      result = monitoring.getToTime() == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(monitoring.getToTime());
       break;
-    case VADA_MATERIALU_COLUMN_IND:
-      result = String.valueOf(monitoring.getVadaMaterialu());
+    case BREAK_TIME_IND:
+      result = String.valueOf(monitoring.getBreakTime());
+      break; 
+    case PAUSE_TIME_IND:
+      result = String.valueOf(monitoring.getPauseTime());
+      break; 
+    case EFFECTIVE_TIME_COLUMN_IND:
+      Date effectiveDate = monitoringTableModel.calcEffectiveTime(monitoring);
+      result = effectiveDate == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(effectiveDate);
       break;
-    case DEFORMACIE_COLUMN_IND:
-      result = String.valueOf(monitoring.getDeformacie());
+    case SIGN_COLUMN_IND:
+      result = monitoringTableModel.calcSign(monitoring);
       break;
-    case POSKODENY_ZASTREK_ZALIS_COLUMN_IND:
-      result = String.valueOf(monitoring.getPoskodenyZastrekZalis());
-      break;
-    case CHYBAJUCI_ZASTREK_COLUMN_IND:
-      result = String.valueOf(monitoring.getChybajuciZastrek());
-      break;
-    case BOD_VSTREKU_COLUMN_IND:
-      result = String.valueOf(monitoring.getBodVstreku());
-      break;
-    case PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN_IND:
-      result = String.valueOf(monitoring.getPritomnostPruznychElementov());
-      break;
-    case VYHADZANE_COLUMN_IND:
-      result = String.valueOf(monitoring.getVyhadzane());
-      break;
-    case PRESTREKY_V_OTVOROCH_COLUMN_IND:
-      result = String.valueOf(monitoring.getPrestrekyVOtvoroch());
-      break;
-    case FARBA_COLUMN_IND:
-      result = String.valueOf(monitoring.getFarba());
-      break;
-    case ZASTAVENIE_STROJA_COLUMN_IND:
-      result = String.valueOf(monitoring.getZastavenieStroja());
-      break;
-    case NEDOLISOVANE_STROJ_COLUMN_IND:
-      result = String.valueOf(monitoring.getNedolisovaneStroj());
-      break;
-    case NEDOLISOVANE_FORMA_COLUMN_IND:
-      result = String.valueOf(monitoring.getNedolisovaneForma());
-      break;
-    case NEDOLISOVANE_PERIFERIE_COLUMN_IND:
-      result = String.valueOf(monitoring.getNedolisovanePeriferie());
-      break;
-    case INE_COLUMN_IND:
-      result = String.valueOf(monitoring.getIne());
-      break;
-    case SUM_PPM_BROKEN_COLUMN_IND:
-      result = String.valueOf(monitoringTableModel.calcSumPpmBroken(monitoring));
-      break;
-    case SUM_BROKEN_COLUMN_IND:
-      result = String.valueOf(monitoringTableModel.calcSumBroken(monitoring));
-      break;
-    case SUM_TOTAL_COLUMN_IND:
-      result = String.valueOf(monitoringTableModel.calcSumTotal(monitoring));
+    case COMMENT_COLUMN_IND:
+      result = monitoring.getComment();
       break;
     default:
       break;

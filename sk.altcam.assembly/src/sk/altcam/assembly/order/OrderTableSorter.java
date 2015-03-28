@@ -2,7 +2,7 @@ package sk.altcam.assembly.order;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Order;
 
 
@@ -47,35 +47,35 @@ public class OrderTableSorter extends ViewerSorter {
     int result = 0;
     switch (criteria) {
     case OrderTableLabelProvider.ORDER_NUMBER_COLUMN_IND:
-      result = ProductionMonitoring.sortString(order1.getOrderNumber(),
+      result = AssemblyMonitoring.sortString(order1.getOrderNumber(),
           order2.getOrderNumber());
       break;
     case OrderTableLabelProvider.ITEM_NUMBER_COLUMN_IND:
-      result = ProductionMonitoring.sortString(order1.getItemNumber(),
+      result = AssemblyMonitoring.sortString(order1.getItemNumber(),
           order2.getItemNumber());
       break;
     case OrderTableLabelProvider.MACHINE_ID_COLUMN_IND:
-      result = ProductionMonitoring.sortString(order1.getMachineId(),
+      result = AssemblyMonitoring.sortString(order1.getMachineId(),
           order2.getMachineId());
       break;
     case OrderTableLabelProvider.DATE_COLUMN_IND:
-      result = ProductionMonitoring.sortDate(order1.getDate(), order2
+      result = AssemblyMonitoring.sortDate(order1.getDate(), order2
           .getDate());
       break;
     case OrderTableLabelProvider.NUM_PLANED_ITEMS_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(order1.getNumItemsPlanned(),
+      result = AssemblyMonitoring.sortInt(order1.getNumItemsPlanned(),
           order2.getNumItemsPlanned());
       break;
     case OrderTableLabelProvider.CYCLE_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(order1.getCycle(),
+      result = AssemblyMonitoring.sortInt(order1.getCycle(),
           order2.getCycle());
       break;
     case OrderTableLabelProvider.NUM_ACTIVE_CAVITIES_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(order1.getNumActiveCavities(),
+      result = AssemblyMonitoring.sortInt(order1.getNumActiveCavities(),
           order2.getNumActiveCavities());
       break;
     case OrderTableLabelProvider.SHIFT_COLUMN_IND:
-      result = ProductionMonitoring.sortInt(order1.getShift(),
+      result = AssemblyMonitoring.sortInt(order1.getShift(),
           order2.getShift());
       break;
     default:

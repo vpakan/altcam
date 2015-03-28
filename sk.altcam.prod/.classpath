@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/home/vpakan/jbdevstudio500GA/studio/plugins/org.eclipse.jface_3.7.0.v20110928-1505.jar"/>
-	<classpathentry kind="lib" path="/home/vpakan/jbdevstudio500GA/studio/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
-	<classpathentry kind="lib" path="/home/vpakan/jbdevstudio500GA/studio/plugins/org.eclipse.swt.gtk.linux.x86_3.7.2.v3740f.jar"/>
-	<classpathentry kind="lib" path="/home/vpakan/jbdevstudio500GA/studio/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar"/>
-	<classpathentry kind="lib" path="/opt/jboss-eap-5.1/seam/lib/dom4j.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/vpakan/jbds9000B2/studio/plugins/org.eclipse.jface_3.11.0.v20150602-1400.jar"/>
+	<classpathentry kind="lib" path="/home/vpakan/jbds9000B2/studio/plugins/org.eclipse.core.commands_3.7.0.v20150422-0725.jar"/>
+	<classpathentry kind="lib" path="/home/vpakan/jbds9000B2/studio/plugins/org.eclipse.swt.gtk.linux.x86_64_3.104.0.v20150528-0211.jar"/>
+	<classpathentry kind="lib" path="/home/vpakan/jbds9000B2/studio/plugins/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar"/>
+	<classpathentry kind="lib" path="/home/vpakan/archive/install/seam/jboss-seam-2.3.0.Final/lib/dom4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

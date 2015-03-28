@@ -2,40 +2,53 @@
 
 <order>
   <orderNumber>IO4</orderNumber>
-  <itemNumber>CV4</itemNumber>
-  <machineId>ID01</machineId>
-  <date>15.02.2012T00:00:00.0</date>
-  <sysDate>26.02.2012T20:26:43.347</sysDate>
-  <cycle>45</cycle>
-  <shift>0</shift>
-  <numActiveCavities>4</numActiveCavities>
-  <numItemsPlanned>0</numItemsPlanned>
+  <itemNumber>V4</itemNumber>
+  <machineId>S4</machineId>
+  <date>09.03.2016T00:00:00.0</date>
+  <sysDate>21.03.2016T18:32:45.234</sysDate>
+  <cycle>23</cycle>
+  <shift>1</shift>
+  <numActiveCavities>6</numActiveCavities>
+  <numItemsPlanned>100</numItemsPlanned>
   <monitorings>
     <monitoring>
-      <date>15.02.2012T00:00:00.0</date>
-      <sysDate>15.02.2012T12:50:28.930</sysDate>
-      <plannedIdleTime>0</plannedIdleTime>
-      <formExchange>0</formExchange>
-      <produced>7200</produced>
-      <Nabehove>0</Nabehove>
-      <Prelis.>0</Prelis.>
-      <Nedolis.>0</Nedolis.>
-      <Zhorene>0</Zhorene>
-      <Spi.Fl.>0</Spi.Fl.>
-      <Deform.>0</Deform.>
-      <NOKzal.>0</NOKzal.>
-      <Chyb.z.>0</Chyb.z.>
-      <Zlap.z.>0</Zlap.z.>
-      <Bubliny>0</Bubliny>
-      <P.forma>0</P.forma>
-      <P.stroj>0</P.stroj>
-      <P.peri.>0</P.peri.>
-      <S.p.p.p.>0</S.p.p.p.>
-      <NOKroz.>0</NOKroz.>
-      <N.stroj>0</N.stroj>
-      <N.forma>0</N.forma>
-      <N.peri.>0</N.peri.>
-      <order>1</order>
+      <date>03.03.2016T00:00:00.0</date>
+      <sysDate>21.03.2016T18:32:45.231</sysDate>
+      <shift>2</shift>
+      <pieces>9735</pieces>
+      <nokPieces>40</nokPieces>
+      <break>0</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T22:30:00.0</fromTime>
+      <toTime>01.01.1970T05:45:00.0</toTime>
+      <comment></comment>
+      <userId>0</userId>
+    </monitoring>
+    <monitoring>
+      <date>08.03.2016T00:00:00.0</date>
+      <sysDate>10.03.2016T16:28:52.638</sysDate>
+      <shift>1</shift>
+      <pieces>2345</pieces>
+      <nokPieces>0</nokPieces>
+      <break>0</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T06:30:00.0</fromTime>
+      <toTime>01.01.1970T13:45:00.0</toTime>
+      <comment></comment>
+      <userId>0</userId>
+    </monitoring>
+    <monitoring>
+      <date>15.03.2016T00:00:00.0</date>
+      <sysDate>10.03.2016T16:30:07.800</sysDate>
+      <shift>1</shift>
+      <pieces>446</pieces>
+      <nokPieces>0</nokPieces>
+      <break>0</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T06:30:00.0</fromTime>
+      <toTime>01.01.1970T13:45:00.0</toTime>
+      <comment></comment>
+      <userId>0</userId>
     </monitoring>
   </monitorings>
 </order>

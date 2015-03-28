@@ -4,7 +4,7 @@ import java.text.ParseException;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.TableItem;
 
-import sk.altcam.assembly.ProductionMonitoring;
+import sk.altcam.assembly.AssemblyMonitoring;
 import sk.altcam.assembly.entity.Monitoring;
 
 /**
@@ -28,14 +28,7 @@ public class MonitoringTableCellModifier implements ICellModifier {
 	 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object, java.lang.String)
 	 */
 	public boolean canModify(Object element, String property) {
-	  int columnIndex = MonitoringTableLabelProvider.getColumnNames().indexOf(property);
-	  Monitoring monitoring = (Monitoring) element;
-	  if (columnIndex == MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND ){
-	    return monitoring.getOrderNumber().trim().equals("?");
-	  }
-	  else{
-	    return true;
-	  }  
+	  return true;
 	}
 
 	/**
@@ -48,84 +41,52 @@ public class MonitoringTableCellModifier implements ICellModifier {
 		Object result = null;
 		Monitoring monitoring = (Monitoring) element;
 		switch (columnIndex) {
-			case MonitoringTableLabelProvider.ORDER_COLUMN_IND: 
-				result = new Integer(monitoring.getOrder());
+			case MonitoringTableLabelProvider.DATE_COLUMN_IND: 
+				result = monitoring.getDate() == null ? "?" : AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(monitoring.getDate());
 				break;
-			case MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND :
+			case MonitoringTableLabelProvider.SHIFT_NUMBER_COLUMN_IND:
+        result = monitoring.getShift() + "";
+        break;
+      case MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND :
 				result = monitoring.getOrderNumber();
 				break;
 			case MonitoringTableLabelProvider.ITEM_NUMBER_COLUMN_IND: 
 				break;
-			case MonitoringTableLabelProvider.DATE_COLUMN_IND: 
-				result = monitoring.getDate() == null ? "?" : ProductionMonitoring.DISPLAY_DATE_FORMAT.format(monitoring.getDate());
-				break;
-			case MonitoringTableLabelProvider.PLANNED_IDLE_TIME_COLUMN_IND: 
-        result = monitoring.getPlannedIdleTime() + "";
+			case MonitoringTableLabelProvider.NORM_COLUMN_IND: 
         break;
-			case MonitoringTableLabelProvider.FORM_SWITCH_COLUMN_IND: 
-        result = monitoring.getFormExchange() + "";
+			case MonitoringTableLabelProvider.PIECES_COLUMN_IND: 
+        result = monitoring.getPieces() + "";
         break;  
-      case MonitoringTableLabelProvider.PRODUCED_COLUMN_IND: 
-        result = monitoring.getProduced() + "";
+			case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND: 
+        result = monitoring.getNonOkPieces() + "";
         break;
-      case MonitoringTableLabelProvider.NABEHOVE_COLUMN_IND: 
-        result = monitoring.getNabehove() + "";
+			case MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.PRESTREKY_COLUMN_IND: 
-        result = monitoring.getPrestreky() + "";
+      case MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.NEDOSTREKY_COLUMN_IND: 
-        result = monitoring.getNedostreky() + "";
+      case MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.ZHORENE_COLUMN_IND: 
-        result = monitoring.getZhorene() + "";
+      case MonitoringTableLabelProvider.NOK_PERCENT_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.VADA_MATERIALU_COLUMN_IND: 
-        result = monitoring.getVadaMaterialu() + "";
+      case MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND: 
+        result = monitoring.getFromTime() == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(monitoring.getFromTime());
         break;
-      case MonitoringTableLabelProvider.DEFORMACIE_COLUMN_IND: 
-        result = monitoring.getDeformacie() + "";
+      case MonitoringTableLabelProvider.TIME_TO_COLUMN_IND: 
+        result = monitoring.getToTime() == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(monitoring.getToTime());
         break;
-      case MonitoringTableLabelProvider.POSKODENY_ZASTREK_ZALIS_COLUMN_IND: 
-        result = monitoring.getPoskodenyZastrekZalis() + "";
+      case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.CHYBAJUCI_ZASTREK_COLUMN_IND: 
-        result = monitoring.getChybajuciZastrek() + "";
+      case MonitoringTableLabelProvider.SIGN_COLUMN_IND: 
         break;
-      case MonitoringTableLabelProvider.BOD_VSTREKU_COLUMN_IND: 
-        result = monitoring.getBodVstreku() + "";
+      case MonitoringTableLabelProvider.COMMENT_COLUMN_IND: 
+        result = monitoring.getComment();
         break;
-      case MonitoringTableLabelProvider.PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN_IND: 
-        result = monitoring.getPritomnostPruznychElementov() + "";
-        break;
-      case MonitoringTableLabelProvider.VYHADZANE_COLUMN_IND: 
-        result = monitoring.getVyhadzane() + "";
-        break;
-      case MonitoringTableLabelProvider.PRESTREKY_V_OTVOROCH_COLUMN_IND: 
-        result = monitoring.getPrestrekyVOtvoroch() + "";
-        break;
-      case MonitoringTableLabelProvider.FARBA_COLUMN_IND: 
-        result = monitoring.getFarba() + "";
-        break;
-      case MonitoringTableLabelProvider.ZASTAVENIE_STROJA_COLUMN_IND: 
-        result = monitoring.getZastavenieStroja() + "";
-        break;
-      case MonitoringTableLabelProvider.INE_COLUMN_IND: 
-        result = monitoring.getIne() + "";
-        break;
-      case MonitoringTableLabelProvider.NEDOLISOVANE_STROJ_COLUMN_IND: 
-        result = monitoring.getNedolisovaneStroj() + "";
-        break;
-      case MonitoringTableLabelProvider.NEDOLISOVANE_FORMA_COLUMN_IND: 
-        result = monitoring.getNedolisovaneForma() + "";
-        break;
-      case MonitoringTableLabelProvider.NEDOLISOVANE_PERIFERIE_COLUMN_IND: 
-        result = monitoring.getNedolisovanePeriferie() + "";
-        break;
-      case MonitoringTableLabelProvider.SUM_BROKEN_COLUMN_IND: 
-        break;
-      case MonitoringTableLabelProvider.SUM_TOTAL_COLUMN_IND: 
-        break;
+      case MonitoringTableLabelProvider.BREAK_TIME_IND: 
+        result = monitoring.getBreakTime() + "";
+        break;  
+      case MonitoringTableLabelProvider.PAUSE_TIME_IND: 
+        result = monitoring.getPauseTime() + "";
+        break;  
 			default :
 				result = "";
 		}
@@ -142,174 +103,88 @@ public class MonitoringTableCellModifier implements ICellModifier {
 		Monitoring monitoring = (Monitoring)item.getData();
 		String valueString;
     switch (columnIndex) {
-    case MonitoringTableLabelProvider.ORDER_COLUMN_IND:
+    case MonitoringTableLabelProvider.DATE_COLUMN_IND:
+      valueString = ((String)value).trim();
+      try {
+        monitoring.setDate(AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(valueString));
+      } catch (ParseException e) {
+        monitoring.setDate(null);
+      }
+      break;
+    case MonitoringTableLabelProvider.SHIFT_NUMBER_COLUMN_IND:
+      valueString = ((String) value).trim();
+      if (valueString.length() == 0){
+        valueString = "0";
+      }  
+      monitoring.setShift(Integer.parseInt(valueString));
       break;
     case MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND:
       valueString = ((String)value).trim();
       monitoring.setOrderNumber(valueString);
       break;
     case MonitoringTableLabelProvider.ITEM_NUMBER_COLUMN_IND: 
+      break;  
+    case MonitoringTableLabelProvider.NORM_COLUMN_IND:
       break;
-    case MonitoringTableLabelProvider.DATE_COLUMN_IND:
+    case MonitoringTableLabelProvider.PIECES_COLUMN_IND:
+      valueString = ((String) value).trim();
+      if (valueString.length() == 0){
+        valueString = "0";
+      }  
+      monitoring.setPieces(Integer.parseInt(valueString));
+      break;  
+    case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND:
+      valueString = ((String) value).trim();
+      if (valueString.length() == 0){
+        valueString = "0";
+      }  
+      monitoring.setNonOkPieces(Integer.parseInt(valueString));
+      break;  
+    case MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND:
       valueString = ((String)value).trim();
       try {
-        monitoring.setDate(ProductionMonitoring.DISPLAY_DATE_FORMAT.parse(valueString));
+        monitoring.setFromTime(AssemblyMonitoring.DISPLAY_TIME_FORMAT.parse(valueString));
       } catch (ParseException e) {
-        monitoring.setDate(null);
+        monitoring.setFromTime(null);
       }
       break;
-    case MonitoringTableLabelProvider.PLANNED_IDLE_TIME_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setPlannedIdleTime(Integer.parseInt(valueString));
+    case MonitoringTableLabelProvider.TIME_TO_COLUMN_IND:
+      valueString = ((String)value).trim();
+      try {
+        monitoring.setToTime(AssemblyMonitoring.DISPLAY_TIME_FORMAT.parse(valueString));
+      } catch (ParseException e) {
+        monitoring.setToTime(null);
+      }
       break;
-    case MonitoringTableLabelProvider.FORM_SWITCH_COLUMN_IND:
+    case MonitoringTableLabelProvider.BREAK_TIME_IND:
       valueString = ((String) value).trim();
       if (valueString.length() == 0){
         valueString = "0";
       }  
-      monitoring.setFormExchange(Integer.parseInt(valueString));
+      monitoring.setBreakTime(Integer.parseInt(valueString));
       break;  
-    case MonitoringTableLabelProvider.PRODUCED_COLUMN_IND:
+    case MonitoringTableLabelProvider.PAUSE_TIME_IND:
       valueString = ((String) value).trim();
       if (valueString.length() == 0){
         valueString = "0";
       }  
-      monitoring.setProduced(Integer.parseInt(valueString));
+      monitoring.setPauseTime(Integer.parseInt(valueString));
+      break;    
+    case MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND:
       break;
-    case MonitoringTableLabelProvider.NABEHOVE_COLUMN_IND:
+    case MonitoringTableLabelProvider.SIGN_COLUMN_IND:
+      break;
+    case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND:
+      break;
+    case MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND:
+      break;
+    case MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND:
+      break;
+    case MonitoringTableLabelProvider.NOK_PERCENT_COLUMN_IND:
+      break;
+    case MonitoringTableLabelProvider.COMMENT_COLUMN_IND:
       valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setNabehove(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.PRESTREKY_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setPrestreky(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.NEDOSTREKY_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setNedostreky(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.ZHORENE_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setZhorene(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.VADA_MATERIALU_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setVadaMaterialu(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.DEFORMACIE_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setDeformacie(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.POSKODENY_ZASTREK_ZALIS_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setPoskodenyZastrekZalis(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.CHYBAJUCI_ZASTREK_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setChybajuciZastrek(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.BOD_VSTREKU_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setBodVstreku(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.PRITOMNOST_PRUZNYCH_ELEMENTOV_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setPritomnostPruznychElementov(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.VYHADZANE_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setVyhadzane(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.PRESTREKY_V_OTVOROCH_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setPrestrekyVOtvoroch(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.FARBA_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setFarba(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.ZASTAVENIE_STROJA_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setZastavenieStroja(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.INE_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0){
-        valueString = "0";
-      }  
-      monitoring.setIne(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_STROJ_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0) {
-        valueString = "0";
-      }
-      monitoring.setNedolisovaneStroj(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_FORMA_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0) {
-        valueString = "0";
-      }
-      monitoring.setNedolisovaneForma(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.NEDOLISOVANE_PERIFERIE_COLUMN_IND:
-      valueString = ((String) value).trim();
-      if (valueString.length() == 0) {
-        valueString = "0";
-      }
-      monitoring.setNedolisovanePeriferie(Integer.parseInt(valueString));
-      break;
-    case MonitoringTableLabelProvider.SUM_PPM_BROKEN_COLUMN_IND:
-      break;
-   case MonitoringTableLabelProvider.SUM_BROKEN_COLUMN_IND:
-      break;
-    case MonitoringTableLabelProvider.SUM_TOTAL_COLUMN_IND:
+      monitoring.setComment(valueString);
       break;
     default :
     }
