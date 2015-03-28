@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<order>
+  <orderNumber>IO1</orderNumber>
+  <itemNumber>CV1</itemNumber>
+  <machineId>ID01</machineId>
+  <date>25.01.2012T00:00:00.0</date>
+  <sysDate>28.03.2015T08:56:51.510</sysDate>
+  <cycle>45</cycle>
+  <shift>4</shift>
+  <numActiveCavities>4</numActiveCavities>
+  <numItemsPlanned>1</numItemsPlanned>
+  <monitorings>
+    <monitoring>
+      <date>11.02.2012T00:00:00.0</date>
+      <sysDate>15.02.2012T12:49:44.494</sysDate>
+      <plannedIdleTime>60</plannedIdleTime>
+      <formExchange>240</formExchange>
+      <produced>7200</produced>
+      <Nabehove>0</Nabehove>
+      <Prelis.>0</Prelis.>
+      <Nedolis.>0</Nedolis.>
+      <Zhorene>0</Zhorene>
+      <Spi.Fl.>0</Spi.Fl.>
+      <Deform.>0</Deform.>
+      <NOKzal.>0</NOKzal.>
+      <Chyb.z.>0</Chyb.z.>
+      <Zlap.z.>0</Zlap.z.>
+      <Bubliny>0</Bubliny>
+      <P.forma>0</P.forma>
+      <P.stroj>0</P.stroj>
+      <P.peri.>0</P.peri.>
+      <S.p.p.p.>0</S.p.p.p.>
+      <NOKroz.>0</NOKroz.>
+      <N.stroj>0</N.stroj>
+      <N.forma>0</N.forma>
+      <N.peri.>0</N.peri.>
+      <order>1</order>
+    </monitoring>
+  </monitorings>
+</order>
