@@ -94,7 +94,6 @@ public class MonitoringTableModel {
     return efficiency;
   }
 
-
   public double calcEffectivity(Monitoring monitoring) {
     double effectivty = -1.0;
     double norm = calcNorm(monitoring);
@@ -106,7 +105,7 @@ public class MonitoringTableModel {
     }
     return effectivty;
   }
-  
+
   public double calcPercentNonOkPieces(Monitoring monitoring) {
     double result = -1.0;
 
@@ -135,7 +134,8 @@ public class MonitoringTableModel {
             .getTimeDiffHHMM(monitoring.getToTime(), monitoring.getFromTime());
       }
     }
-    return AssemblyMonitoring.addMinutes(effectiveTime, -1 * (monitoring.getBreakTime() + monitoring.getPauseTime()));
+    return AssemblyMonitoring.addMinutes(effectiveTime,
+        -1 * (monitoring.getBreakTime() + monitoring.getPauseTime()));
   }
 
   public double calcNorm(Monitoring monitoring) {
@@ -212,55 +212,23 @@ public class MonitoringTableModel {
     // Order
     final TextCellEditor orderNumberCellEditor = new TextCellEditor(table);
     orderNumberCellEditor.addListener(new ICellEditorListener() {
-      @Override
-      public void editorValueChanged(boolean arg0, boolean arg1) {
-        // do nothing
-      }
 
-      @Override
-      public void cancelEditor() {
-        // do nothing
-      }
-
-      @Override
-      public void applyEditorValue() {
-        checkOrderNumber((Text) orderNumberCellEditor.getControl());
-      }
-    });
-    editors[MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND] = orderNumberCellEditor;
-    editors[MonitoringTableLabelProvider.ITEM_NUMBER_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.NORM_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.NOK_PERCENT_COLUMN_IND] = null;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl()) .addVerifyListener(new IntegerVerifyListener());
-    editors[MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND] = textEditor;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl()) .addVerifyListener(new IntegerVerifyListener());
-    editors[MonitoringTableLabelProvider.BREAK_TIME_IND] = textEditor;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl()) .addVerifyListener(new IntegerVerifyListener());
-    editors[MonitoringTableLabelProvider.PAUSE_TIME_IND] = textEditor;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl()) .addVerifyListener(new IntegerVerifyListener());
-    editors[MonitoringTableLabelProvider.PIECES_COLUMN_IND] = textEditor;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl())
-        .addVerifyListener(new TimeVerifyListener());
-    editors[MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND] = textEditor;
-    textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl())
-        .addVerifyListener(new TimeVerifyListener());
-    editors[MonitoringTableLabelProvider.TIME_TO_COLUMN_IND] = textEditor;
-    editors[MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND] = null;
-    editors[MonitoringTableLabelProvider.SIGN_COLUMN_IND] = null;
-    textEditor = new TextCellEditor(table);
-    editors[MonitoringTableLabelProvider.COMMENT_COLUMN_IND] = textEditor;
-    tableViewer.setCellEditors(editors);
-    tableViewer.setCellModifier(new MonitoringTableCellModifier(this));
+  @Override
+  public void editorValueChanged(boolean arg0, boolean arg1) {
+    // do nothing
   }
+
+  @Override
+  public void cancelEditor() {
+    // do nothing
+  }
+
+  @Override
+  public void applyEditorValue() {
+    checkOrderNumber((Text) orderNumberCellEditor.getControl());
+  }
+
+  });editors[MonitoringTableLabelProvider.ORDER_NUMBER_COLUMN_IND]=orderNumberCellEditor;editors[MonitoringTableLabelProvider.ITEM_NUMBER_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.NORM_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.NOK_PERCENT_COLUMN_IND]=null;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new IntegerVerifyListener());editors[MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND]=textEditor;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new IntegerVerifyListener());editors[MonitoringTableLabelProvider.BREAK_TIME_IND]=textEditor;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new IntegerVerifyListener());editors[MonitoringTableLabelProvider.PAUSE_TIME_IND]=textEditor;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new IntegerVerifyListener());editors[MonitoringTableLabelProvider.PIECES_COLUMN_IND]=textEditor;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new TimeVerifyListener());editors[MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND]=textEditor;textEditor=new TextCellEditor(table);((Text)textEditor.getControl()).addVerifyListener(new TimeVerifyListener());editors[MonitoringTableLabelProvider.TIME_TO_COLUMN_IND]=textEditor;editors[MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND]=null;editors[MonitoringTableLabelProvider.SIGN_COLUMN_IND]=null;textEditor=new TextCellEditor(table);editors[MonitoringTableLabelProvider.COMMENT_COLUMN_IND]=textEditor;tableViewer.setCellEditors(editors);tableViewer.setCellModifier(new MonitoringTableCellModifier(this));}
 
   private void initializeButtons() {
     monitoringTable.getClose().addSelectionListener(new SelectionAdapter() {
@@ -294,6 +262,9 @@ public class MonitoringTableModel {
         Order order = orderTableModel.getData().get(index);
         monitoring.setOrderEntity(order);
         getData().get(getData().indexOf(monitoring)).setOrderEntity(order);
+        Date initTime = getInitTime(order, monitoring.getDate(),monitoring.getUserId());
+        monitoring.setFromTime(initTime);
+        monitoring.setToTime(initTime);
         if (order.getMonitoring() == null) {
           order.setMonitoring(new LinkedList<Monitoring>());
         }
@@ -403,6 +374,42 @@ public class MonitoringTableModel {
     data = orderTableModel.getFilteredMonitoringRecords(filterFromDate,
         filterToDate, getFilterUserId());
     tableViewer.setInput(data);
+  }
+
+  private Date getInitTime(Order order , Date monitoringDate, String userId){
+    Date initTime = null;
+    Date minFromDate = null;
+    Date maxToDate = null;
+    for (Monitoring monitoring : order.getMonitoring()){
+      if (monitoring.getUserId().equals(userId)){
+        if (minFromDate == null || minFromDate.after(monitoring.getFromTime())){
+          minFromDate = monitoring.getFromTime();
+        }
+        if (maxToDate == null || maxToDate.before(monitoring.getToTime())){
+          maxToDate = monitoring.getToTime();
+        }
+      }
+    }
+    if (minFromDate == null && maxToDate == null) {
+      initTime = AssemblyMonitoring.resetTimeOfDate(new Date(0));
+    } else {
+      if (minFromDate == null) {
+        minFromDate = AssemblyMonitoring.resetTimeOfDate(new Date(0));
+      }
+      if (maxToDate == null) {
+        maxToDate = AssemblyMonitoring.resetTimeOfDate(new Date(0));
+      }
+      if (minFromDate.equals(maxToDate)) {
+        initTime = AssemblyMonitoring.addMinutes(minFromDate, 1);
+      } else if (maxToDate.before(AssemblyMonitoring.addOneDay(monitoringDate))){
+          initTime = AssemblyMonitoring.addMinutes(maxToDate, 1);;
+      } else if (minFromDate.after(monitoringDate)){
+        initTime = AssemblyMonitoring.addMinutes(minFromDate, -1);
+      }
+    }
+    
+    return initTime;
+    
   }
 
   private String getFilterUserId() {

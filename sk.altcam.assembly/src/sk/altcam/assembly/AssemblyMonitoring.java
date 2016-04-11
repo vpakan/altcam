@@ -46,6 +46,7 @@ public class AssemblyMonitoring {
   private AssemblyUsersModel assemblyUsersModel;
   private TabItem tiAdmin;
   private TabItem tiReports;
+  private TabItem tiOrders;
     
   static {
     AssemblyMonitoring.DECIMAL_FORMAT.setMinimumFractionDigits(2);
@@ -84,6 +85,7 @@ public class AssemblyMonitoring {
         if (!assemblyUsersModel.getLoggedUser().isAdmin()){
           tiReports.dispose();
           tiAdmin.dispose();
+          tiOrders.dispose();
         }
         Display display = shell.getDisplay();
         while (!shell.isDisposed()) {
@@ -116,10 +118,10 @@ public class AssemblyMonitoring {
     monitoring.setText ("Monitoring");
     monitoringTable = new MonitoringTable(tabFolderMain, SWT.NONE);
     monitoring.setControl(monitoringTable);
-    TabItem orders = new TabItem (tabFolderMain, SWT.NONE);
-    orders.setText ("Objednavky");
+    tiOrders = new TabItem (tabFolderMain, SWT.NONE);
+    tiOrders.setText ("Objednavky");
     orderTable = new OrderTable(tabFolderMain, SWT.NONE);
-    orders.setControl(orderTable);
+    tiOrders.setControl(orderTable);
     tiReports = new TabItem (tabFolderMain, SWT.NONE);
     tiReports.setText ("Reporty");
     reportControl = new ReportControl(tabFolderMain, SWT.NONE);
