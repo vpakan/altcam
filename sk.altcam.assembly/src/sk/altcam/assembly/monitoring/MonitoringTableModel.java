@@ -380,13 +380,15 @@ public class MonitoringTableModel {
     Date initTime = null;
     Date minFromDate = null;
     Date maxToDate = null;
-    for (Monitoring monitoring : order.getMonitoring()){
-      if (monitoring.getUserId().equals(userId)){
-        if (minFromDate == null || minFromDate.after(monitoring.getFromTime())){
-          minFromDate = monitoring.getFromTime();
-        }
-        if (maxToDate == null || maxToDate.before(monitoring.getToTime())){
-          maxToDate = monitoring.getToTime();
+    if (order.getMonitoring() != null){
+      for (Monitoring monitoring : order.getMonitoring()){
+        if (monitoring.getUserId().equals(userId)){
+          if (minFromDate == null || minFromDate.after(monitoring.getFromTime())){
+            minFromDate = monitoring.getFromTime();
+          }
+          if (maxToDate == null || maxToDate.before(monitoring.getToTime())){
+            maxToDate = monitoring.getToTime();
+          }
         }
       }
     }
