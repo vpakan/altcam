@@ -66,7 +66,7 @@ public class OrderTableCellModifier implements ICellModifier {
         result = order.getNumItemsPlanned() + "";
         break;
       case OrderTableLabelProvider.CYCLE_COLUMN_IND: 
-        result = order.getCycle() + "";
+        result = AssemblyMonitoring.DECIMAL_FORMAT.format(order.getCycle());
         break;
       case OrderTableLabelProvider.NUM_ACTIVE_CAVITIES_COLUMN_IND: 
         result = order.getNumActiveCavities() + "";
@@ -129,9 +129,9 @@ public class OrderTableCellModifier implements ICellModifier {
     case OrderTableLabelProvider.CYCLE_COLUMN_IND:
       valueString = ((String) value).trim();
       if (valueString.length() == 0){
-        valueString = "0";
+        valueString = AssemblyMonitoring.DECIMAL_FORMAT.format(0.0);
       }  
-      order.setCycle(Integer.parseInt(valueString));
+      order.setCycle(Double.parseDouble(valueString));
       break;
     case OrderTableLabelProvider.NUM_ACTIVE_CAVITIES_COLUMN_IND:
       valueString = ((String) value).trim();

@@ -67,7 +67,7 @@ public class OrderTableSorter extends ViewerSorter {
           order2.getNumItemsPlanned());
       break;
     case OrderTableLabelProvider.CYCLE_COLUMN_IND:
-      result = AssemblyMonitoring.sortInt(order1.getCycle(),
+      result = AssemblyMonitoring.sortDouble(order1.getCycle(),
           order2.getCycle());
       break;
     case OrderTableLabelProvider.NUM_ACTIVE_CAVITIES_COLUMN_IND:

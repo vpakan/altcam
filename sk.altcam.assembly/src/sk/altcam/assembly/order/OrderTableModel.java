@@ -206,8 +206,6 @@ public class OrderTableModel {
         .addVerifyListener(new IntegerVerifyListener());
     editors[OrderTableLabelProvider.NUM_PLANED_ITEMS_COLUMN_IND] = textEditor;
     textEditor = new TextCellEditor(table);
-    ((Text) textEditor.getControl())
-        .addVerifyListener(new IntegerVerifyListener());
     editors[OrderTableLabelProvider.CYCLE_COLUMN_IND] = textEditor;
     textEditor = new TextCellEditor(table);
     ((Text) textEditor.getControl())
@@ -359,8 +357,8 @@ public class OrderTableModel {
             .getText();
         int numItemsPlanned = Integer.parseInt(
             rootNode.element(OrderTableModel.NUM_ITEMS_PLANNED_NODE).getText());
-        int cycle = Integer
-            .parseInt(rootNode.element(OrderTableModel.CYCLE_NODE).getText());
+        double cycle = Double
+            .parseDouble(rootNode.element(OrderTableModel.CYCLE_NODE).getText());
         int numActiveCavities = Integer.parseInt(rootNode
             .element(OrderTableModel.NUM_ACTIVE_CAVITIES_NODE).getText());
         int shift = Integer

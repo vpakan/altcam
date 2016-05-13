@@ -75,7 +75,7 @@ public class OrderTableLabelProvider extends LabelProvider implements ITableLabe
       result = String.valueOf(order.getNumItemsPlanned());
       break;
     case CYCLE_COLUMN_IND:
-      result = String.valueOf(order.getCycle());
+      result = AssemblyMonitoring.DECIMAL_FORMAT.format(order.getCycle());
       break;
     case NUM_ACTIVE_CAVITIES_COLUMN_IND:
       result = String.valueOf(order.getNumActiveCavities());

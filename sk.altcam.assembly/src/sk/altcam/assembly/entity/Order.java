@@ -10,7 +10,7 @@ public class Order implements Comparable<Order> {
   private String itemNumber;
   private String orderNumber;
   private int numItemsPlanned;
-  private int cycle;
+  private double cycle;
   private int numActiveCavities;
   private Date date;
   private Date sysDate;
@@ -50,11 +50,11 @@ public class Order implements Comparable<Order> {
     this.numItemsPlanned = numItemsPlanned;
   }
 
-  public int getCycle() {
+  public double getCycle() {
     return cycle;
   }
 
-  public void setCycle(int cycle) {
+  public void setCycle(double cycle) {
     this.cycle = cycle;
   }
 
