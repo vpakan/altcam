@@ -131,7 +131,11 @@ public class OrderTableCellModifier implements ICellModifier {
       if (valueString.length() == 0){
         valueString = AssemblyMonitoring.DECIMAL_FORMAT.format(0.0);
       }  
-      order.setCycle(Double.parseDouble(valueString));
+      try {
+        order.setCycle(AssemblyMonitoring.DECIMAL_FORMAT.parse(valueString).doubleValue());
+      } catch (ParseException pe) {
+        throw new RuntimeException(pe);
+      }
       break;
     case OrderTableLabelProvider.NUM_ACTIVE_CAVITIES_COLUMN_IND:
       valueString = ((String) value).trim();
