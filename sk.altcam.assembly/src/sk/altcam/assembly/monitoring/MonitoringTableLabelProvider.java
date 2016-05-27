@@ -48,7 +48,7 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
   public static final int TIME_TO_COLUMN_IND = 10; 
   public static final int BREAK_TIME_IND = 11;
   public static final int PAUSE_TIME_IND = 12; 
-  public static final int EFFECTIVE_TIME_COLUMN_IND = 13;
+  public static final int EFFICIENT_TIME_COLUMN_IND = 13;
   public static final int EFFICIENCY_COLUMN_IND = 14;
   public static final int SIGN_COLUMN_IND = 15;
   public static final int EFFECTIVITY_COLUMN_IND = 16;
@@ -137,8 +137,8 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
     case PAUSE_TIME_IND:
       result = String.valueOf(monitoring.getPauseTime());
       break; 
-    case EFFECTIVE_TIME_COLUMN_IND:
-      Date effectiveDate = monitoringTableModel.calcEffectiveTime(monitoring);
+    case EFFICIENT_TIME_COLUMN_IND:
+      Date effectiveDate = monitoringTableModel.calcEfficientTime(monitoring);
       result = effectiveDate == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(effectiveDate);
       break;
     case SIGN_COLUMN_IND:

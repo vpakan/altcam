@@ -74,7 +74,7 @@ public class MonitoringTableCellModifier implements ICellModifier {
       case MonitoringTableLabelProvider.TIME_TO_COLUMN_IND: 
         result = monitoring.getToTime() == null ? "?" : AssemblyMonitoring.DISPLAY_TIME_FORMAT.format(monitoring.getToTime());
         break;
-      case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND: 
+      case MonitoringTableLabelProvider.EFFICIENT_TIME_COLUMN_IND: 
         break;
       case MonitoringTableLabelProvider.SIGN_COLUMN_IND: 
         break;
@@ -174,7 +174,7 @@ public class MonitoringTableCellModifier implements ICellModifier {
       break;
     case MonitoringTableLabelProvider.SIGN_COLUMN_IND:
       break;
-    case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND:
+    case MonitoringTableLabelProvider.EFFICIENT_TIME_COLUMN_IND:
       break;
     case MonitoringTableLabelProvider.EFFECTIVITY_COLUMN_IND:
       break;

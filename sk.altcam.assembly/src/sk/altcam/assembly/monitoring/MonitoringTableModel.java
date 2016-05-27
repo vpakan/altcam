@@ -94,7 +94,7 @@ public class MonitoringTableModel {
     double efficiency = -1.0;
     double norm = calcNorm(monitoring);
     double effectiveTimeDecimal = AssemblyMonitoring
-        .getDecimalHHMMTime(calcEffectiveTime(monitoring));
+        .getDecimalHHMMTime(calcEfficientTime(monitoring));
     int sumPieces = calcSumPieces(monitoring);
     if (norm > 0 && sumPieces > 0 && effectiveTimeDecimal > 0) {
       double piecesPerHour = sumPieces / effectiveTimeDecimal;
@@ -131,7 +131,7 @@ public class MonitoringTableModel {
     return monitoring.getPieces() + monitoring.getNonOkPieces();
   }
 
-  public Date calcEffectiveTime(Monitoring monitoring) {
+  public Date calcEfficientTime(Monitoring monitoring) {
     Date effectiveTime = null;
     if (monitoring.getFromTime() != null && monitoring.getToTime() != null) {
       if (monitoring.getFromTime().after(monitoring.getToTime())) {
@@ -145,6 +145,21 @@ public class MonitoringTableModel {
     }
     return AssemblyMonitoring.addMinutes(effectiveTime,
         -1 * (monitoring.getBreakTime() + monitoring.getPauseTime()));
+  }
+  
+  public Date calcEffectiveTime(Monitoring monitoring) {
+    Date efficientTime = null;
+    if (monitoring.getFromTime() != null && monitoring.getToTime() != null) {
+      if (monitoring.getFromTime().after(monitoring.getToTime())) {
+        efficientTime = AssemblyMonitoring.getTimeDiffHHMM(
+            AssemblyMonitoring.addOneDay(monitoring.getToTime()),
+            monitoring.getFromTime());
+      } else {
+        efficientTime = AssemblyMonitoring
+            .getTimeDiffHHMM(monitoring.getToTime(), monitoring.getFromTime());
+      }
+    }
+    return efficientTime;
   }
 
   public double calcNorm(Monitoring monitoring) {
@@ -268,7 +283,7 @@ public class MonitoringTableModel {
     ((Text) textEditor.getControl())
         .addVerifyListener(new TimeVerifyListener());
     editors[MonitoringTableLabelProvider.TIME_TO_COLUMN_IND] = textEditor;
-    editors[MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND] = null;
+    editors[MonitoringTableLabelProvider.EFFICIENT_TIME_COLUMN_IND] = null;
     editors[MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND] = null;
     editors[MonitoringTableLabelProvider.SIGN_COLUMN_IND] = null;
     textEditor = new TextCellEditor(table);

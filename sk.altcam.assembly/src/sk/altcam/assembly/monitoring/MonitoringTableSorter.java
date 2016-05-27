@@ -93,9 +93,9 @@ public class MonitoringTableSorter extends ViewerSorter {
       result = AssemblyMonitoring.sortDate(monitoring1.getToTime(),
           monitoring2.getToTime());
       break;
-    case MonitoringTableLabelProvider.EFFECTIVE_TIME_COLUMN_IND:
-      result = AssemblyMonitoring.sortDate(monitoringTableModel.calcEffectiveTime(monitoring1),
-          monitoringTableModel.calcEffectiveTime(monitoring2));
+    case MonitoringTableLabelProvider.EFFICIENT_TIME_COLUMN_IND:
+      result = AssemblyMonitoring.sortDate(monitoringTableModel.calcEfficientTime(monitoring1),
+          monitoringTableModel.calcEfficientTime(monitoring2));
       break;
     case MonitoringTableLabelProvider.SIGN_COLUMN_IND:
       result = AssemblyMonitoring.sortString(monitoringTableModel.calcSign(monitoring1),

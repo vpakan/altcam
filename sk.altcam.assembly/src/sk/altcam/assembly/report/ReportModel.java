@@ -356,7 +356,7 @@ public class ReportModel {
           rf.addColumnText(String.valueOf(monitoring.getBreakTime()));
           rf.addColumnText(String.valueOf(monitoring.getPauseTime()));
           rf.addColumnText(AssemblyMonitoring.DISPLAY_TIME_FORMAT
-              .format(monitoringTableModel.calcEffectiveTime(monitoring)));
+              .format(monitoringTableModel.calcEfficientTime(monitoring)));
           rf.addColumnText(monitoring.getComment());
         }
         rf.addNewLine();
@@ -522,7 +522,7 @@ public class ReportModel {
           rf.addColumnText(String.valueOf(monitoring.getBreakTime()));
           rf.addColumnText(String.valueOf(monitoring.getPauseTime()));
           rf.addColumnText(AssemblyMonitoring.DISPLAY_TIME_FORMAT
-              .format(monitoringTableModel.calcEffectiveTime(monitoring)));
+              .format(monitoringTableModel.calcEfficientTime(monitoring)));
           rf.addColumnText(monitoring.getComment());
         }
         rf.addNewLine();
@@ -672,7 +672,7 @@ public class ReportModel {
         rf.addColumnText(String.valueOf(monitoring.getBreakTime()));
         rf.addColumnText(String.valueOf(monitoring.getPauseTime()));
         rf.addColumnText(AssemblyMonitoring.DISPLAY_TIME_FORMAT
-            .format(monitoringTableModel.calcEffectiveTime(monitoring)));
+            .format(monitoringTableModel.calcEfficientTime(monitoring)));
         rf.addColumnText(monitoring.getComment());
       }
       rf.addNewLine();
