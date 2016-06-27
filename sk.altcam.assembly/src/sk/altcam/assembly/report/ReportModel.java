@@ -295,21 +295,21 @@ public class ReportModel {
         rf.addNewLine();
         rf.addColumnText("Datum");
         rf.addColumnText("Zmena");
-        rf.addColumnText("Cislo IO");
-        rf.addColumnText("Cislo vyrobku");
+        rf.addColumnText("Cislo_IO");
+        rf.addColumnText("Cislo_vyrobku");
         rf.addColumnText("Norma/hod.");
-        rf.addColumnText("OK ks");
-        rf.addColumnText("NOK ks");
-        rf.addColumnText("Spolu ks");
-        rf.addColumnText("NOK %");
-        rf.addColumnText("Vykon (%)");
+        rf.addColumnText("OK_ks");
+        rf.addColumnText("NOK_ks");
+        rf.addColumnText("Spolu_ks");
+        rf.addColumnText("NOK_%");
+        rf.addColumnText("Vykon_(%)");
         rf.addColumnText("+-");
-        rf.addColumnText("Efektivita (%)");
-        rf.addColumnText("Cas od");
-        rf.addColumnText("Cas do");
+        rf.addColumnText("Efektivita_(%)");
+        rf.addColumnText("Cas_od");
+        rf.addColumnText("Cas_do");
         rf.addColumnText("Prestavka");
         rf.addColumnText("Prestoj");
-        rf.addColumnText("Cisty cas");
+        rf.addColumnText("Cisty_cas");
         rf.addColumnText("Poznamka");
         rf.addNewLine();
 
@@ -453,27 +453,27 @@ public class ReportModel {
         rf.addNewLine();
         rf.addCenteredLine("Vykon za vyrobok za obdobie");
         rf.addNewLine();
-        rf.addText("Cislo vyrobku: " + item);
+        rf.addText("Cislo_vyrobku: " + item);
         rf.addNewLine();
         rf.addNewLine();
         rf.addColumnText("Datum");
         rf.addColumnText("Zmena");
-        rf.addColumnText("Cislo IO");
-        rf.addColumnText("ID operatora");
-        rf.addColumnText("Meno operatora");
+        rf.addColumnText("Cislo_IO");
+        rf.addColumnText("ID_operatora");
+        rf.addColumnText("Meno_operatora");
         rf.addColumnText("Norma/hod.");
-        rf.addColumnText("OK ks");
-        rf.addColumnText("NOK ks");
-        rf.addColumnText("Spolu ks");
-        rf.addColumnText("NOK %");
-        rf.addColumnText("Vykon (%)");
+        rf.addColumnText("OK_ks");
+        rf.addColumnText("NOK_ks");
+        rf.addColumnText("Spolu_ks");
+        rf.addColumnText("NOK_%");
+        rf.addColumnText("Vykon_(%)");
         rf.addColumnText("+-");
-        rf.addColumnText("Efektivita (%)");
-        rf.addColumnText("Cas od");
-        rf.addColumnText("Cas do");
+        rf.addColumnText("Efektivita_(%)");
+        rf.addColumnText("Cas_od");
+        rf.addColumnText("Cas_do");
         rf.addColumnText("Prestavka");
         rf.addColumnText("Prestoj");
-        rf.addColumnText("Cisty cas");
+        rf.addColumnText("Cisty_cas");
         rf.addColumnText("Poznamka");
         rf.addNewLine();
 
@@ -495,7 +495,7 @@ public class ReportModel {
           rf.addColumnText(monitoring.getOrderEntity().getOrderNumber());
           rf.addColumnText(monitoring.getUserId());
           rf.addColumnText(
-              assemblyUserModel.getUser(monitoring.getUserId()).getUserName());
+              assemblyUserModel.getUser(monitoring.getUserId()).getUserName().replaceAll(" ", "_"));
           rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
               .format(monitoringTableModel.calcNorm(monitoring)));
           rf.addColumnText(String.valueOf(monitoring.getPieces()));
@@ -608,23 +608,23 @@ public class ReportModel {
       rf.addNewLine();
       rf.addColumnText("Datum");
       rf.addColumnText("Zmena");
-      rf.addColumnText("Cislo IO");
-      rf.addColumnText("Cislo vyrobku");
-      rf.addColumnText("ID operatora");
-      rf.addColumnText("Meno operatora");
+      rf.addColumnText("Cislo_IO");
+      rf.addColumnText("Cislo_vyrobku");
+      rf.addColumnText("ID_operatora");
+      rf.addColumnText("Meno_operatora");
       rf.addColumnText("Norma/hod.");
-      rf.addColumnText("OK ks");
-      rf.addColumnText("NOK ks");
-      rf.addColumnText("Spolu ks");
-      rf.addColumnText("NOK %");
-      rf.addColumnText("Vykon (%)");
+      rf.addColumnText("OK_ks");
+      rf.addColumnText("NOK_ks");
+      rf.addColumnText("Spolu_ks");
+      rf.addColumnText("NOK_%");
+      rf.addColumnText("Vykon_(%)");
       rf.addColumnText("+-");
-      rf.addColumnText("Efektivita (%)");
-      rf.addColumnText("Cas od");
-      rf.addColumnText("Cas do");
+      rf.addColumnText("Efektivita_(%)");
+      rf.addColumnText("Cas_od");
+      rf.addColumnText("Cas_do");
       rf.addColumnText("Prestavka");
       rf.addColumnText("Prestoj");
-      rf.addColumnText("Cisty cas");
+      rf.addColumnText("Cisty_cas");
       rf.addColumnText("Poznamka");
       rf.addNewLine();
 
@@ -645,7 +645,7 @@ public class ReportModel {
         rf.addColumnText(monitoring.getOrderEntity().getItemNumber());
         rf.addColumnText(monitoring.getUserId());
         rf.addColumnText(
-            assemblyUserModel.getUser(monitoring.getUserId()).getUserName());
+            assemblyUserModel.getUser(monitoring.getUserId()).getUserName().replaceAll(" ", "_"));
         rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
             .format(monitoringTableModel.calcNorm(monitoring)));
         rf.addColumnText(String.valueOf(monitoring.getPieces()));
