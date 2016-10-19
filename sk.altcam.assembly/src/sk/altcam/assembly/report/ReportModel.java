@@ -34,6 +34,102 @@ public class ReportModel {
   private MonitoringTableModel monitoringTableModel = null;
   private AssemblyUsersModel assemblyUserModel = null;
 
+  private class ItemReportData{
+    public ItemReportData(int pieces, int processed,
+        int loaded) {
+
+      this.pieces = pieces;
+      this.loaded = loaded;
+      this.processed = processed;
+      
+    }
+    @Override
+    public String toString() {
+      return "ItemReportData [pieces=" + pieces 
+          + ", processed=" + processed + ", loaded=" + loaded + "]";
+    }
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + getOuterType().hashCode();
+      result = prime * result + pieces;
+      result = prime * result + processed;
+      result = prime * result + loaded;
+      return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      ItemReportData other = (ItemReportData) obj;
+      if (!getOuterType().equals(other.getOuterType()))
+        return false;
+      if (pieces != other.pieces)
+        return false;
+      if (processed != other.processed)
+        return false;
+      if (loaded != other.loaded)
+        return false;
+      return true;
+    }
+    
+    public int pieces = 0;
+    public int loaded = 0;
+    public int processed = 0;
+    private ReportModel getOuterType() {
+      return ReportModel.this;
+    }
+  }
+  private class MachineReportData{
+    public MachineReportData() {
+      this.accumulatedTheoreticalProduced = 0;
+      this.accumulatedProduced = 0;
+    }
+    @Override
+    public String toString() {
+      return "MachineReportData [accumulatedTheoreticalProduced=" + accumulatedTheoreticalProduced 
+          + ", accumulatedProduced=" + accumulatedProduced + "]";
+    }
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + getOuterType().hashCode();
+      result = prime * result + new Double(accumulatedTheoreticalProduced).hashCode();
+      result = prime * result + accumulatedProduced;
+      return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      MachineReportData other = (MachineReportData) obj;
+      if (!getOuterType().equals(other.getOuterType()))
+        return false;
+      if (accumulatedTheoreticalProduced != other.accumulatedTheoreticalProduced)
+        return false;
+      if (accumulatedProduced != other.accumulatedProduced)
+        return false;
+      return true;
+    }
+    
+    public double accumulatedTheoreticalProduced = 0.0D;
+    public int accumulatedProduced = 0;
+    private ReportModel getOuterType() {
+      return ReportModel.this;
+    }
+  }
+
+  
   private class AssemblyMonitoringOperatorData {
     @Override
     public String toString() {
@@ -151,7 +247,7 @@ public class ReportModel {
         .format(AssemblyMonitoring.getFirstDayOfMonth(today));
     String toDate = AssemblyMonitoring.DISPLAY_DATE_FORMAT
         .format(AssemblyMonitoring.getLastDayOfMonth(today));
-
+    // assembly reports init
     reportControl.getFromAssemblyDate().setText(fromDate);
     reportControl.getToAssemblyDate().setText(toDate);
 
@@ -175,6 +271,29 @@ public class ReportModel {
             runAssemblyAllReport();
           }
         });
+    // production reports init
+    reportControl.getFromMonitoringDate().setText(fromDate);
+    reportControl.getToMonitoringDate().setText(toDate);
+    reportControl.getFromMachineDate().setText(fromDate);
+    reportControl.getToMachineDate().setText(toDate);
+    
+    reportControl.getMonitoringReport().addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent e) {
+        runMonitoringReport();
+      }
+    });
+
+    reportControl.getOrderReport().addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent e) {
+        runOrderReport();
+      }
+    });    
+    
+    reportControl.getMachineReport().addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent e) {
+        runMachineReport();
+      }
+    }); 
 
   }
 
@@ -705,5 +824,298 @@ public class ReportModel {
           "Report bol vygenerovany do suboru: " + reportFileLocation);
     }
 
+  }
+  private void runMachineReport(){
+
+    String reportFileLocation = getReportFileLocation("machinerep.txt");
+    if (reportFileLocation != null){
+      String fromDate = reportControl.getFromMachineDate().getText();
+      String toDate = reportControl.getToMachineDate().getText();
+      Date reportFromDate = null;
+      Date reportToDate = null;
+      try {
+        reportFromDate = AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(fromDate);
+      } catch (ParseException e) {
+        reportFromDate = null;
+      }
+      try {
+        reportToDate = AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(toDate);
+      } catch (ParseException e) {
+        reportToDate = null;
+      }
+      ReportFormatter rf = new ReportFormatter(new int[]{20,20}, 
+          new int[]{ReportFormatter.ALLIGN_LEFT,
+            ReportFormatter.ALLIGN_RIGHT},
+          new boolean[]{true,true});
+      rf.addText("Od: " + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportFromDate) +
+        " Do: " + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportToDate) +
+        " Datum vytvorenia reportu: " + AssemblyMonitoring.STORAGE_DATE_FORMAT.format(new Date()));
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addCenteredLine("Efektivnost stroja za obdobie");
+      rf.addNewLine();
+      rf.addColumnText("ID stroja.");
+      rf.addColumnText("Efektivita stroja %");
+      rf.addNewLine();
+      HashMap<String, MachineReportData> machinesData = new HashMap<String, MachineReportData>(); 
+      for (Order order : orderTableModel.getData()){
+          MachineReportData machineReportData = null;
+          if (machinesData.containsKey(order.getMachineId())){
+            machineReportData = machinesData.get(order.getMachineId());
+          }
+          else{
+            machineReportData = new MachineReportData();
+            machinesData.put(order.getMachineId(), machineReportData);
+          }
+          List<Monitoring> monitorings = order.getMonitoring();
+        if (monitorings != null) {
+          for (Monitoring monitoring : monitorings) {
+            if (AssemblyMonitoring.isDateWithinPeriod(monitoring.getDate(),
+                reportFromDate, reportToDate)) {
+              machineReportData.accumulatedTheoreticalProduced += monitoringTableModel
+                  .calcNorm(monitoring)
+                  * AssemblyMonitoring.getDecimalHHMMTime(
+                      monitoringTableModel.calcEfficientTime(monitoring));
+              machineReportData.accumulatedProduced += monitoring.getPieces();
+            }
+          }
+        }
+      }
+      
+      LinkedList<String> machineIds = new LinkedList(machinesData.keySet());
+      Collections.sort(machineIds, new Comparator<String>() {
+        @Override
+        public int compare(String machineId1, String machineId2) {
+          return machineId1.compareTo(machineId2);
+        }
+      });
+      for (String machineId : machineIds){
+        rf.addNewLine();
+        rf.addColumnText(machineId);
+        MachineReportData machineRD = machinesData.get(machineId);
+        rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
+          .format((100.0D*machineRD.accumulatedProduced)/machineRD.accumulatedTheoreticalProduced));
+      }
+      
+      writeToFile(reportFileLocation, rf.getReportText());
+      MessageBox.displayMessageBox(reportControl.getShell(), SWT.ICON_INFORMATION, "Info",
+        "Report bol vygenerovany do suboru: " + reportFileLocation);
+    }  
+  }
+  
+  private void runMonitoringReport (){
+    String reportFileLocation = getReportFileLocation("prodrep.txt");
+    if (reportFileLocation != null){
+      String fromDate = reportControl.getFromMonitoringDate().getText();
+      String toDate = reportControl.getToMonitoringDate().getText();
+      String reportItemNumber = reportControl.getItemNumber().getText();
+      Date reportFromDate = null;
+      Date reportToDate = null;
+      try {
+        reportFromDate = AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(fromDate);
+      } catch (ParseException e) {
+        reportFromDate = null;
+      }
+      try {
+        reportToDate = AssemblyMonitoring.DISPLAY_DATE_FORMAT.parse(toDate);
+      } catch (ParseException e) {
+        reportToDate = null;
+      }
+      ReportFormatter rf = new ReportFormatter(new int[]{16,8,12,
+          8,12,8,8,8,8,8,8,8}, 
+          new int[]{ReportFormatter.ALLIGN_LEFT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT},
+          new boolean[]{true,true,true,true,true,true,true,true,true,true,true,true});
+      rf.addText("Od: " + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportFromDate) +
+        " Do: " + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportToDate) +
+        " Datum vytvorenia reportu: " + AssemblyMonitoring.STORAGE_DATE_FORMAT.format(new Date()));
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addCenteredLine("Kazovost vyrobku za obdobie");
+      rf.addNewLine();
+      rf.addColumnText("Cislo vyr.");
+      rf.addColumnText("Vyrobene");
+      rf.addColumnText("NOK_procesne");
+      rf.addColumnText("ppm");
+      rf.addColumnText("NOK_Nabehove");
+      rf.addColumnText("ppm");
+      rf.addColumnText("Zma.-ppm");
+      rf.addColumnText("ppm");
+      rf.addColumnText("Zmatky");
+      rf.addColumnText("ppm");
+      rf.addColumnText("Sp.-ppm");
+      rf.addColumnText("Spolu");
+      rf.addNewLine();
+      HashMap<String, ItemReportData> itemsData = new HashMap<String, ItemReportData>(); 
+      for (Order order : orderTableModel.getData()){
+        if (reportItemNumber.length() == 0 || 
+            reportItemNumber.equals("*") ||
+            order.getItemNumber().equals(reportItemNumber)){
+          ItemReportData itemReportData = null;
+          if (itemsData.containsKey(order.getItemNumber())){
+            itemReportData = itemsData.get(order.getItemNumber());
+          }
+          else{
+            itemReportData = new ItemReportData(0,0,0);
+            itemsData.put(order.getItemNumber(), itemReportData);
+          }
+          List<Monitoring> monitorings = order.getMonitoring();
+          if (monitorings != null){
+            for (Monitoring monitoring : monitorings){
+              if (AssemblyMonitoring.isDateWithinPeriod(monitoring.getDate(),
+                  reportFromDate, reportToDate)) {
+                itemReportData.pieces += monitoring.getPieces();
+                itemReportData.processed += monitoring.getNonOkProcessed();
+                itemReportData.loaded += monitoring.getNonOkLoaded();
+              }
+            }
+          }
+        }
+      }
+      int pieces = 0;
+      int loaded = 0;
+      int processed = 0;
+      for (String itemNumber : itemsData.keySet()){
+        ItemReportData itemReportData = itemsData.get(itemNumber);
+        pieces += itemReportData.pieces;
+        processed += itemReportData.processed;
+        loaded += itemReportData.loaded;
+ 
+        int sumPpmBroken = itemReportData.processed + itemReportData.loaded;
+        int sumBroken = sumPpmBroken;
+        int totalForPpm = sumPpmBroken + itemReportData.pieces;
+        int total = itemReportData.pieces + sumBroken;
+        rf.addNewLine();
+        rf.addColumnText(itemNumber);
+        rf.addColumnText(String.valueOf(itemReportData.pieces));
+        rf.addColumnText(String.valueOf(itemReportData.processed));
+        long value = getPpm(itemReportData.processed,totalForPpm);
+        rf.addColumnText(String.valueOf(value));
+        rf.addColumnText(String.valueOf(itemReportData.loaded));
+        value = getPpm(itemReportData.loaded,totalForPpm);
+        rf.addColumnText(String.valueOf(value));
+        rf.addColumnText(String.valueOf(sumPpmBroken));
+        value = getPpm(sumPpmBroken,totalForPpm);
+        rf.addColumnText(String.valueOf(value));
+        rf.addColumnText(String.valueOf(sumBroken));
+        value = getPpm(sumBroken,total);
+        rf.addColumnText(String.valueOf(value));
+        rf.addColumnText(String.valueOf(totalForPpm));
+        rf.addColumnText(String.valueOf(total));
+      }
+      int sumPpmBroken = processed + loaded;
+      int sumBroken = sumPpmBroken;
+      int totalForPpm = pieces + sumPpmBroken;
+      int total = pieces + sumBroken;
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addColumnText("Spolu");
+      rf.addColumnText(String.valueOf(pieces));
+      rf.addColumnText(String.valueOf(processed));
+      long value = getPpm(processed,totalForPpm);
+      rf.addColumnText(String.valueOf(value));
+      rf.addColumnText(String.valueOf(loaded));
+      value = getPpm(loaded,totalForPpm);
+      rf.addColumnText(String.valueOf(value));
+
+      rf.addColumnText(String.valueOf(sumPpmBroken));
+      value = getPpm(sumPpmBroken,totalForPpm);
+      rf.addColumnText(String.valueOf(value));
+      rf.addColumnText(String.valueOf(sumBroken));
+      value = getPpm(sumBroken,total);
+      rf.addColumnText(String.valueOf(value));
+      rf.addColumnText(String.valueOf(totalForPpm));
+      rf.addColumnText(String.valueOf(total));
+      // legend
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addText("Legenda:");
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addText("Cislo vyr. - Cislo vyrobku");
+      rf.addNewLine();
+      rf.addText("Vyrobene - pocet vyrobenych nekazovych kusov");
+      rf.addNewLine();
+      rf.addText("NOK_Procesne  - pocet pokazenych procesnych ks");
+      rf.addNewLine();
+      rf.addText("NOK_Nabehove  - pocet pokazenych nabehovych ks");
+      rf.addNewLine();
+      rf.addText("Zma.-ppm - suma zmatkov pre vypocet ppm");
+      rf.addNewLine();
+      rf.addText("Zmatky - suma vsetkych zmatkov aj s nabehovymi kusmi");
+      rf.addNewLine();
+      rf.addText("Sp.-ppm - suma zmatkov pre vypocet ppm a vyrobenych nekazovych kusov");
+      rf.addNewLine();
+      rf.addText("Spolu - suma vyrobenych nekazovych kusov a vsetkych zmatkov");
+      writeToFile(reportFileLocation, rf.getReportText());
+      MessageBox.displayMessageBox(reportControl.getShell(), SWT.ICON_INFORMATION, "Info",
+        "Report bol vygenerovany do suboru: " + reportFileLocation);
+    }
+  }
+  private void runOrderReport (){
+    String reportFileLocation = getReportFileLocation("orderrep.txt");
+    if (reportFileLocation != null){
+      ReportFormatter rf = new ReportFormatter(new int[]{5,16,10,8,8,8,8}, 
+          new int[]{ReportFormatter.ALLIGN_LEFT,
+            ReportFormatter.ALLIGN_LEFT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT,
+            ReportFormatter.ALLIGN_RIGHT},
+          new boolean[]{true,true,true,true,true,true,true});
+      rf.addText("Datum vytvorenia reportu: " + AssemblyMonitoring.STORAGE_DATE_FORMAT.format(new Date()));
+      rf.addNewLine();
+      rf.addNewLine();
+      rf.addCenteredLine("Rozpracovane objednavky");
+      rf.addNewLine();
+      rf.addColumnText("C.o.");
+      rf.addColumnText("Cislo vyr.");
+      rf.addColumnText("Datum o.");
+      rf.addColumnText("Planov.");
+      rf.addColumnText("Hotove");
+      rf.addColumnText("Dorobit");
+      rf.addColumnText("Hotove %");
+      rf.addNewLine();
+      for (Order order : orderTableModel.getData()){
+        List<Monitoring> monitorings = order.getMonitoring();
+        int produced = 0;
+        if (monitorings != null){
+          for (Monitoring monitoring : monitorings){
+            produced += monitoring.getPieces();
+          }
+        }  
+        if (produced < order.getNumItemsPlanned()) {
+          rf.addNewLine();
+          rf.addColumnText(order.getOrderNumber());
+          rf.addColumnText(order.getItemNumber());
+          rf.addColumnText(order.getDate() == null ? ""
+              : AssemblyMonitoring.DISPLAY_DATE_FORMAT
+                  .format(order.getDate()));
+          rf.addColumnText(String.valueOf(order.getNumItemsPlanned()));
+          rf.addColumnText(String.valueOf(produced));
+          int missing = order.getNumItemsPlanned() - produced;
+          rf.addColumnText(String.valueOf(missing));
+          rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
+              .format(((float) produced / order.getNumItemsPlanned()) * 100));
+        }
+      }
+      writeToFile(reportFileLocation, rf.getReportText());
+      MessageBox.displayMessageBox(reportControl.getShell(), SWT.ICON_INFORMATION, "Info",
+        "Report bol vygenerovany do suboru: " + reportFileLocation);
+    }
+  }
+  private long getPpm (int numItem , int total){
+    return Math.round(((double)numItem/total)*1000000);
   }
 }
