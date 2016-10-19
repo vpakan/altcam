@@ -61,6 +61,9 @@ public class OrderTableModel {
   private static final String MONITORING_COMMENT_NODE = "comment";
   private static final String MONITORING_USER_ID_NODE = "userId";
   private static final String MACHINE_ID_NODE = "machineId";
+  private static final String MONITORING_NOK_PIECES_PROCESSED_NODE = "nokProcessed";
+  private static final String MONITORING_NOK_PIECES_LOADED_NODE = "nokLoaded";
+  //TODO: remove latter - stays here only for backwards compatibility
   private static final String MONITORING_NOK_PIECES_NODE = "nokPieces";
   private static final String MONITORING_BREAK_NODE = "break";
   private static final String MONITORING_PAUSE_NODE = "pause";
@@ -385,8 +388,20 @@ public class OrderTableModel {
             Element monitoring = (Element) object;
             int monitoringPieces = Integer.parseInt(monitoring
                 .element(OrderTableModel.MONITORING_PIECES_NODE).getText());
-            int monitoringNokPieces = Integer.parseInt(monitoring
-                .element(OrderTableModel.MONITORING_NOK_PIECES_NODE).getText());
+            //TODO: remove latter - stays here only for backwards compatibility
+            Element nonOkPieces = monitoring
+                .element(OrderTableModel.MONITORING_NOK_PIECES_NODE);
+            int monitoringNokProcessed = 0;
+            int monitoringNokLoaded = 0;
+            if (nonOkPieces != null){
+              monitoringNokProcessed = Integer.parseInt(nonOkPieces.getText());  
+            }
+            else{
+              monitoringNokProcessed = Integer.parseInt(monitoring
+                  .element(OrderTableModel.MONITORING_NOK_PIECES_PROCESSED_NODE).getText());;
+              monitoringNokLoaded = Integer.parseInt(monitoring
+                  .element(OrderTableModel.MONITORING_NOK_PIECES_LOADED_NODE).getText());
+            }            
             int monitoringBreak = Integer.parseInt(monitoring
                 .element(OrderTableModel.MONITORING_BREAK_NODE).getText());
             int monitoringPause = Integer.parseInt(monitoring
@@ -420,7 +435,8 @@ public class OrderTableModel {
             monitoringEntity.setShift(monitoringShift);
             monitoringEntity.setPieces(monitoringPieces);
             monitoringEntity.setComment(monitoringComment);
-            monitoringEntity.setNonOkPieces(monitoringNokPieces);
+            monitoringEntity.setNonOkProcessed(monitoringNokProcessed);
+            monitoringEntity.setNonOkLoaded(monitoringNokLoaded);
             monitoringEntity.setBreakTime(monitoringBreak);
             monitoringEntity.setPauseTime(monitoringPause);
             monitorings.addLast(monitoringEntity);
@@ -497,8 +513,10 @@ public class OrderTableModel {
             .addText(String.valueOf(monitoring.getShift()));
         monitoringElement.addElement(OrderTableModel.MONITORING_PIECES_NODE)
             .addText(String.valueOf(monitoring.getPieces()));
-        monitoringElement.addElement(OrderTableModel.MONITORING_NOK_PIECES_NODE)
-            .addText(String.valueOf(monitoring.getNonOkPieces()));
+        monitoringElement.addElement(OrderTableModel.MONITORING_NOK_PIECES_PROCESSED_NODE)
+            .addText(String.valueOf(monitoring.getNonOkProcessed()));
+        monitoringElement.addElement(OrderTableModel.MONITORING_NOK_PIECES_LOADED_NODE)
+            .addText(String.valueOf(monitoring.getNonOkLoaded()));
         monitoringElement.addElement(OrderTableModel.MONITORING_BREAK_NODE)
             .addText(String.valueOf(monitoring.getBreakTime()));
         monitoringElement.addElement(OrderTableModel.MONITORING_PAUSE_NODE)

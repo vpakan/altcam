@@ -69,9 +69,17 @@ public class MonitoringTableSorter extends ViewerSorter {
       result = AssemblyMonitoring.sortInt(monitoring1.getPieces(),
           monitoring2.getPieces());
       break;
+    case MonitoringTableLabelProvider.NON_OK_PIECES_PROCESSED_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getNonOkProcessed(),
+          monitoring2.getNonOkProcessed());
+      break;
+    case MonitoringTableLabelProvider.NON_OK_PIECES_LOADED_COLUMN_IND:
+      result = AssemblyMonitoring.sortInt(monitoring1.getNonOkLoaded(),
+          monitoring2.getNonOkLoaded());
+      break;
     case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND:
-      result = AssemblyMonitoring.sortInt(monitoring1.getNonOkPieces(),
-          monitoring2.getNonOkPieces());
+      result = AssemblyMonitoring.sortInt(monitoringTableModel.calcSumNonOkPieces(monitoring1),
+          monitoringTableModel.calcSumNonOkPieces(monitoring2));
       break;
     case MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND:
       result = AssemblyMonitoring.sortInt(monitoringTableModel.calcSumPieces(monitoring1),

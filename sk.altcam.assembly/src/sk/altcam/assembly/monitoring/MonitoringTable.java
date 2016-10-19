@@ -33,6 +33,8 @@ public class MonitoringTable extends Composite{
    SWT.RIGHT,
    SWT.RIGHT,
    SWT.RIGHT,
+   SWT.RIGHT,
+   SWT.RIGHT,
    SWT.CENTER,
    SWT.CENTER,
    SWT.RIGHT,

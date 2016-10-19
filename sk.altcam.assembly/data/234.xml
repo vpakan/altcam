@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<order>
+  <orderNumber>234</orderNumber>
+  <itemNumber>567</itemNumber>
+  <machineId>?</machineId>
+  <date>19.10.2016T00:00:00.0</date>
+  <sysDate>17.05.2016T14:06:16.479</sysDate>
+  <cycle>5.5</cycle>
+  <shift>0</shift>
+  <numActiveCavities>2</numActiveCavities>
+  <numItemsPlanned>10</numItemsPlanned>
+</order>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<order>
+  <orderNumber>123</orderNumber>
+  <itemNumber>456</itemNumber>
+  <machineId>?</machineId>
+  <date>18.10.2016T00:00:00.0</date>
+  <sysDate>19.10.2016T12:12:41.694</sysDate>
+  <cycle>60.0</cycle>
+  <shift>0</shift>
+  <numActiveCavities>1</numActiveCavities>
+  <numItemsPlanned>1000</numItemsPlanned>
+  <monitorings>
+    <monitoring>
+      <date>13.10.2016T00:00:00.0</date>
+      <sysDate>19.10.2016T12:11:47.117</sysDate>
+      <shift>2</shift>
+      <pieces>480</pieces>
+      <nokProcessed>40</nokProcessed>
+      <nokLoaded>8</nokLoaded>
+      <break>120</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T06:30:00.0</fromTime>
+      <toTime>01.01.1970T14:30:00.0</toTime>
+      <comment>asšačťžý</comment>
+      <userId>0</userId>
+    </monitoring>
+    <monitoring>
+      <date>18.10.2016T00:00:00.0</date>
+      <sysDate>19.10.2016T12:12:41.693</sysDate>
+      <shift>2</shift>
+      <pieces>480</pieces>
+      <nokProcessed>8</nokProcessed>
+      <nokLoaded>40</nokLoaded>
+      <break>0</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T06:35:00.0</fromTime>
+      <toTime>01.01.1970T14:35:00.0</toTime>
+      <comment>aa</comment>
+      <userId>0</userId>
+    </monitoring>
+  </monitorings>
+</order>

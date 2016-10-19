@@ -263,11 +263,12 @@ public class ReportModel {
         AssemblyMonitoringOperatorData assemblyMonitoringData = userData
             .get(userId);
         ReportFormatter rf = new ReportFormatter(
-            new int[] { 10, 5, 10, 14, 10, 9, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7, 9,
+            new int[] { 10, 5, 10, 14, 10, 9, 12, 12, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7, 9,
                 30 },
             new int[] { ReportFormatter.ALLIGN_LEFT,
                 ReportFormatter.ALLIGN_CENTER, ReportFormatter.ALLIGN_LEFT,
                 ReportFormatter.ALLIGN_LEFT, ReportFormatter.ALLIGN_RIGHT,
+                ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
@@ -277,7 +278,7 @@ public class ReportModel {
                 ReportFormatter.ALLIGN_LEFT },
             new boolean[] { true, true, true, true, true, true, true, true,
                 true, true, true, true, true, true, true, true, true, true,
-                true });
+                true, true, true });
 
         rf.addText("Od: "
             + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportFromDate)
@@ -299,6 +300,8 @@ public class ReportModel {
         rf.addColumnText("Cislo_vyrobku");
         rf.addColumnText("Norma/hod.");
         rf.addColumnText("OK_ks");
+        rf.addColumnText("NOK_procesne_ks");
+        rf.addColumnText("NOK_nabehove_ks");
         rf.addColumnText("NOK_ks");
         rf.addColumnText("Spolu_ks");
         rf.addColumnText("NOK_%");
@@ -333,7 +336,9 @@ public class ReportModel {
           rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
               .format(monitoringTableModel.calcNorm(monitoring)));
           rf.addColumnText(String.valueOf(monitoring.getPieces()));
-          rf.addColumnText(String.valueOf(monitoring.getNonOkPieces()));
+          rf.addColumnText(String.valueOf(monitoring.getNonOkProcessed()));
+          rf.addColumnText(String.valueOf(monitoring.getNonOkLoaded()));
+          rf.addColumnText(String.valueOf(monitoringTableModel.calcSumNonOkPieces(monitoring)));
           rf.addColumnText(
               String.valueOf(monitoringTableModel.calcSumPieces(monitoring)));
           rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
@@ -427,11 +432,12 @@ public class ReportModel {
       for (String item : itemData.keySet()) {
         AssemblyMonitoringItemData assemblyMonitoringData = itemData.get(item);
         ReportFormatter rf = new ReportFormatter(
-            new int[] { 10, 5, 10, 12, 25, 10, 9, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7,
+            new int[] { 10, 5, 10, 12, 25, 10, 9, 12, 12, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7,
                 9, 30 },
             new int[] { ReportFormatter.ALLIGN_LEFT,
                 ReportFormatter.ALLIGN_CENTER, ReportFormatter.ALLIGN_LEFT,
                 ReportFormatter.ALLIGN_LEFT, ReportFormatter.ALLIGN_LEFT,
+                ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
                 ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
@@ -441,7 +447,7 @@ public class ReportModel {
                 ReportFormatter.ALLIGN_CENTER, ReportFormatter.ALLIGN_LEFT },
             new boolean[] { true, true, true, true, true, true, true, true,
                 true, true, true, true, true, true, true, true, true, true,
-                true, true });
+                true, true, true, true });
 
         rf.addText("Od: "
             + AssemblyMonitoring.DISPLAY_DATE_FORMAT.format(reportFromDate)
@@ -463,6 +469,8 @@ public class ReportModel {
         rf.addColumnText("Meno_operatora");
         rf.addColumnText("Norma/hod.");
         rf.addColumnText("OK_ks");
+        rf.addColumnText("NOK_procesne_ks");
+        rf.addColumnText("NOK_nabehove_ks");
         rf.addColumnText("NOK_ks");
         rf.addColumnText("Spolu_ks");
         rf.addColumnText("NOK_%");
@@ -499,7 +507,9 @@ public class ReportModel {
           rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
               .format(monitoringTableModel.calcNorm(monitoring)));
           rf.addColumnText(String.valueOf(monitoring.getPieces()));
-          rf.addColumnText(String.valueOf(monitoring.getNonOkPieces()));
+          rf.addColumnText(String.valueOf(monitoring.getNonOkProcessed()));
+          rf.addColumnText(String.valueOf(monitoring.getNonOkLoaded()));
+          rf.addColumnText(String.valueOf(monitoringTableModel.calcSumNonOkPieces(monitoring)));
           rf.addColumnText(
               String.valueOf(monitoringTableModel.calcSumPieces(monitoring)));
           rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
@@ -579,7 +589,7 @@ public class ReportModel {
       }
 
       ReportFormatter rf = new ReportFormatter(
-          new int[] { 10, 5, 10, 14, 12,25,10, 9, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7, 9,
+          new int[] { 10, 5, 10, 14, 12,25,10, 9, 12, 12, 9, 9, 9, 9, 2, 14, 6, 6, 9, 7, 9,
               30 },
           new int[] { ReportFormatter.ALLIGN_LEFT,
               ReportFormatter.ALLIGN_CENTER, ReportFormatter.ALLIGN_LEFT,
@@ -588,11 +598,12 @@ public class ReportModel {
               ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
               ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
               ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
+              ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_RIGHT,
               ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_CENTER,
               ReportFormatter.ALLIGN_CENTER, ReportFormatter.ALLIGN_RIGHT,
               ReportFormatter.ALLIGN_RIGHT, ReportFormatter.ALLIGN_CENTER,
               ReportFormatter.ALLIGN_LEFT },
-          new boolean[] { true, true, true, true, true, true, true, true, true,
+          new boolean[] { true, true, true, true, true,true, true, true, true, true, true,
               true, true, true, true, true, true, true, true, true, true, true });
 
       rf.addText(
@@ -614,6 +625,8 @@ public class ReportModel {
       rf.addColumnText("Meno_operatora");
       rf.addColumnText("Norma/hod.");
       rf.addColumnText("OK_ks");
+      rf.addColumnText("NOK_procesne_ks");
+      rf.addColumnText("NOK_nabehove_ks");
       rf.addColumnText("NOK_ks");
       rf.addColumnText("Spolu_ks");
       rf.addColumnText("NOK_%");
@@ -649,7 +662,9 @@ public class ReportModel {
         rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT
             .format(monitoringTableModel.calcNorm(monitoring)));
         rf.addColumnText(String.valueOf(monitoring.getPieces()));
-        rf.addColumnText(String.valueOf(monitoring.getNonOkPieces()));
+        rf.addColumnText(String.valueOf(monitoring.getNonOkProcessed()));
+        rf.addColumnText(String.valueOf(monitoring.getNonOkLoaded()));
+        rf.addColumnText(String.valueOf(monitoringTableModel.calcSumNonOkPieces(monitoring)));
         rf.addColumnText(
             String.valueOf(monitoringTableModel.calcSumPieces(monitoring)));
         rf.addColumnText(AssemblyMonitoring.DECIMAL_FORMAT

@@ -57,8 +57,13 @@ public class MonitoringTableCellModifier implements ICellModifier {
 			case MonitoringTableLabelProvider.PIECES_COLUMN_IND: 
         result = monitoring.getPieces() + "";
         break;  
+      case MonitoringTableLabelProvider.NON_OK_PIECES_PROCESSED_COLUMN_IND: 
+        result = monitoring.getNonOkProcessed() + "";
+        break;  
+      case MonitoringTableLabelProvider.NON_OK_PIECES_LOADED_COLUMN_IND: 
+          result = monitoring.getNonOkLoaded() + "";
+        break;
 			case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND: 
-        result = monitoring.getNonOkPieces() + "";
         break;
 			case MonitoringTableLabelProvider.SUM_PIECES_COLUMN_IND: 
         break;
@@ -133,13 +138,20 @@ public class MonitoringTableCellModifier implements ICellModifier {
       }  
       monitoring.setPieces(Integer.parseInt(valueString));
       break;  
-    case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND:
+    case MonitoringTableLabelProvider.NON_OK_PIECES_PROCESSED_COLUMN_IND:
       valueString = ((String) value).trim();
       if (valueString.length() == 0){
         valueString = "0";
       }  
-      monitoring.setNonOkPieces(Integer.parseInt(valueString));
+      monitoring.setNonOkProcessed(Integer.parseInt(valueString));
       break;  
+    case MonitoringTableLabelProvider.NON_OK_PIECES_LOADED_COLUMN_IND:
+      valueString = ((String) value).trim();
+      if (valueString.length() == 0){
+        valueString = "0";
+      }  
+      monitoring.setNonOkLoaded(Integer.parseInt(valueString));
+      break;
     case MonitoringTableLabelProvider.TIME_FROM_COLUMN_IND:
       valueString = ((String)value).trim();
       try {
@@ -169,7 +181,9 @@ public class MonitoringTableCellModifier implements ICellModifier {
         valueString = "0";
       }  
       monitoring.setPauseTime(Integer.parseInt(valueString));
-      break;    
+      break;
+    case MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND:
+      break;
     case MonitoringTableLabelProvider.EFFICIENCY_COLUMN_IND:
       break;
     case MonitoringTableLabelProvider.SIGN_COLUMN_IND:

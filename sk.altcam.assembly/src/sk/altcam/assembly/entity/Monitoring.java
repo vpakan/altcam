@@ -17,7 +17,8 @@ public class Monitoring  implements Comparable<Monitoring>{
   private String userId;
   private int breakTime;
   private int pauseTime;
-  private int nonOkPieces;
+  private int nonOkLoaded;
+  private int nonOkProcessed;  
   
   public Order getOrderEntity() {
     return orderEntity;
@@ -38,11 +39,17 @@ public class Monitoring  implements Comparable<Monitoring>{
   public void setPauseTime(int pauseTime) {
     this.pauseTime = pauseTime;
   }
-  public int getNonOkPieces() {
-    return nonOkPieces;
+  public int getNonOkProcessed() {
+    return nonOkProcessed;
   }
-  public void setNonOkPieces(int nonOkPieces) {
-    this.nonOkPieces = nonOkPieces;
+  public int getNonOkLoaded() {
+    return nonOkLoaded;
+  }
+  public void setNonOkProcessed(int nonOkProcessed) {
+    this.nonOkProcessed = nonOkProcessed;
+  }
+  public void setNonOkLoaded(int nonOkLoaded) {
+    this.nonOkLoaded = nonOkLoaded;
   }
   public String getOrderNumber() {
     return orderNumber;
@@ -108,7 +115,8 @@ public class Monitoring  implements Comparable<Monitoring>{
     this.toTime = AssemblyMonitoring.resetTimeOfDate(new Date(0));
     this.comment = "";
     this.pieces = 0;
-    this.nonOkPieces = 0;
+    this.nonOkProcessed = 0;
+    this.nonOkLoaded = 0;
     this.shift = 1;
     this.breakTime = 0;
     this.pauseTime = 0;
@@ -179,7 +187,8 @@ public class Monitoring  implements Comparable<Monitoring>{
         + shift + ", pieces=" + pieces + ", fromTime=" + fromTime + ", toTime="
         + toTime + ", comment=" + comment + ", userId=" + userId
         + ", breakTime=" + breakTime + ", pauseTime=" + pauseTime
-        + ", nonOkPieces=" + nonOkPieces + "]";
+        + ", nonOkProcessed=" + nonOkProcessed
+        + ", nonOkLoaded=" + nonOkLoaded + "]";
   }   
   
   

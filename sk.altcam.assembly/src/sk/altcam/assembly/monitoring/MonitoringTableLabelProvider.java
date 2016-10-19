@@ -23,7 +23,9 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
   private static final String ITEM_NUMBER_COLUMN   = "Cislo vyrobku";
   private static final String NORM_COLUMN = "Norma";
   private static final String PIECES_COLUMN = "OK ks";
-  private static final String NON_OK_PIECES_COLUMN = "NOK ks";
+  private static final String NON_OK_PIECES_COLUMN = "NOK Spolu ks";
+  private static final String NON_OK_PIECES_PROCESSED_COLUMN = "NOK Procesne ks";
+  private static final String NON_OK_PIECES_LOADED_COLUMN = "NOK Nabehove ks";
   private static final String SUM_PIECES_COLUMN = "Spolu ks";
   private static final String EFFICIENCY_COLUMN = "Vykon %";
   private static final String SIGN_COLUMN = "+/-";
@@ -41,18 +43,20 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
   public static final int SHIFT_NUMBER_COLUMN_IND = 3;
   public static final int NORM_COLUMN_IND = 4;
   public static final int PIECES_COLUMN_IND = 5;
-  public static final int NON_OK_PIECES_COLUMN_IND = 6; 
-  public static final int SUM_PIECES_COLUMN_IND = 7; 
-  public static final int NOK_PERCENT_COLUMN_IND = 8;
-  public static final int TIME_FROM_COLUMN_IND = 9;
-  public static final int TIME_TO_COLUMN_IND = 10; 
-  public static final int BREAK_TIME_IND = 11;
-  public static final int PAUSE_TIME_IND = 12; 
-  public static final int EFFICIENT_TIME_COLUMN_IND = 13;
-  public static final int EFFICIENCY_COLUMN_IND = 14;
-  public static final int SIGN_COLUMN_IND = 15;
-  public static final int EFFECTIVITY_COLUMN_IND = 16;
-  public static final int COMMENT_COLUMN_IND = 17;
+  public static final int NON_OK_PIECES_PROCESSED_COLUMN_IND = 6;
+  public static final int NON_OK_PIECES_LOADED_COLUMN_IND = 7;
+  public static final int NON_OK_PIECES_COLUMN_IND = 8;
+  public static final int SUM_PIECES_COLUMN_IND = 9; 
+  public static final int NOK_PERCENT_COLUMN_IND = 10;
+  public static final int TIME_FROM_COLUMN_IND = 11;
+  public static final int TIME_TO_COLUMN_IND = 12; 
+  public static final int BREAK_TIME_IND = 13;
+  public static final int PAUSE_TIME_IND = 14; 
+  public static final int EFFICIENT_TIME_COLUMN_IND = 15;
+  public static final int EFFICIENCY_COLUMN_IND = 16;
+  public static final int SIGN_COLUMN_IND = 17;
+  public static final int EFFECTIVITY_COLUMN_IND = 18;
+  public static final int COMMENT_COLUMN_IND = 19;
 
   // Set column names
   public static final String[] COLUMN_NAMES = new String[] { 
@@ -62,6 +66,8 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
     SHIFT_COLUMN,
     NORM_COLUMN,
     PIECES_COLUMN,
+    NON_OK_PIECES_PROCESSED_COLUMN,
+    NON_OK_PIECES_LOADED_COLUMN,
     NON_OK_PIECES_COLUMN,
     SUM_PIECES_COLUMN,
     NOK_PERCENT_COLUMN,
@@ -110,8 +116,14 @@ public class MonitoringTableLabelProvider extends LabelProvider implements ITabl
     case PIECES_COLUMN_IND:
       result = String.valueOf(monitoring.getPieces());
       break;
+    case NON_OK_PIECES_PROCESSED_COLUMN_IND:
+      result = String.valueOf(monitoring.getNonOkProcessed());
+      break;
+    case NON_OK_PIECES_LOADED_COLUMN_IND:
+      result = String.valueOf(monitoring.getNonOkLoaded());
+      break;
     case NON_OK_PIECES_COLUMN_IND:
-      result = String.valueOf(monitoring.getNonOkPieces());
+      result = String.valueOf(monitoringTableModel.calcSumNonOkPieces(monitoring));
       break; 
     case SUM_PIECES_COLUMN_IND:
       result = String.valueOf(monitoringTableModel.calcSumPieces(monitoring));

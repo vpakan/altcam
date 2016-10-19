@@ -121,14 +121,18 @@ public class MonitoringTableModel {
     int sumPieces = calcSumPieces(monitoring);
 
     if (sumPieces > 0) {
-      result = (monitoring.getNonOkPieces() / (sumPieces * 1.0)) * 100;
+      result = (calcSumNonOkPieces(monitoring) / (sumPieces * 1.0)) * 100;
     }
 
     return result;
   }
 
   public int calcSumPieces(Monitoring monitoring) {
-    return monitoring.getPieces() + monitoring.getNonOkPieces();
+    return monitoring.getPieces() + calcSumNonOkPieces(monitoring);
+  }
+  
+  public int calcSumNonOkPieces(Monitoring monitoring) {
+    return monitoring.getNonOkLoaded() + monitoring.getNonOkProcessed();
   }
 
   public Date calcEfficientTime(Monitoring monitoring) {
@@ -262,7 +266,12 @@ public class MonitoringTableModel {
     textEditor = new TextCellEditor(table);
     ((Text) textEditor.getControl())
         .addVerifyListener(new IntegerVerifyListener());
-    editors[MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND] = textEditor;
+    editors[MonitoringTableLabelProvider.NON_OK_PIECES_PROCESSED_COLUMN_IND] = textEditor;
+    textEditor = new TextCellEditor(table);
+    ((Text) textEditor.getControl())
+        .addVerifyListener(new IntegerVerifyListener());
+    editors[MonitoringTableLabelProvider.NON_OK_PIECES_LOADED_COLUMN_IND] = textEditor;
+    editors[MonitoringTableLabelProvider.NON_OK_PIECES_COLUMN_IND] = null;
     textEditor = new TextCellEditor(table);
     ((Text) textEditor.getControl())
         .addVerifyListener(new IntegerVerifyListener());
