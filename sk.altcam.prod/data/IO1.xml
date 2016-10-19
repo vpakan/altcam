@@ -5,11 +5,11 @@
   <itemNumber>CV1</itemNumber>
   <machineId>ID01</machineId>
   <date>25.01.2012T00:00:00.0</date>
-  <sysDate>28.03.2015T08:56:51.510</sysDate>
+  <sysDate>19.10.2016T15:32:10.407</sysDate>
   <cycle>45</cycle>
   <shift>4</shift>
   <numActiveCavities>4</numActiveCavities>
-  <numItemsPlanned>1</numItemsPlanned>
+  <numItemsPlanned>10000</numItemsPlanned>
   <monitorings>
     <monitoring>
       <date>11.02.2012T00:00:00.0</date>
