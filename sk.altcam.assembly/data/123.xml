@@ -5,37 +5,37 @@
   <itemNumber>456</itemNumber>
   <machineId>S1</machineId>
   <date>18.10.2016T00:00:00.0</date>
-  <sysDate>19.10.2016T16:17:23.689</sysDate>
+  <sysDate>25.10.2016T19:38:03.697</sysDate>
   <cycle>60.0</cycle>
   <shift>0</shift>
   <numActiveCavities>1</numActiveCavities>
   <numItemsPlanned>1000</numItemsPlanned>
   <monitorings>
     <monitoring>
-      <date>13.10.2016T00:00:00.0</date>
-      <sysDate>19.10.2016T15:53:19.156</sysDate>
+      <date>18.10.2016T00:00:00.0</date>
+      <sysDate>25.10.2016T19:35:06.148</sysDate>
       <shift>2</shift>
       <pieces>480</pieces>
-      <nokProcessed>40</nokProcessed>
-      <nokLoaded>8</nokLoaded>
+      <nokProcessed>0</nokProcessed>
+      <nokLoaded>0</nokLoaded>
       <break>0</break>
       <pause>0</pause>
-      <fromTime>01.01.1970T06:30:00.0</fromTime>
-      <toTime>01.01.1970T14:30:00.0</toTime>
+      <fromTime>01.01.1970T01:00:00.0</fromTime>
+      <toTime>01.01.1970T13:01:00.0</toTime>
       <comment>asšačťžý</comment>
       <userId>0</userId>
     </monitoring>
     <monitoring>
-      <date>18.10.2016T00:00:00.0</date>
-      <sysDate>19.10.2016T16:17:23.688</sysDate>
+      <date>19.10.2016T00:00:00.0</date>
+      <sysDate>25.10.2016T19:38:03.696</sysDate>
       <shift>2</shift>
-      <pieces>240</pieces>
-      <nokProcessed>8</nokProcessed>
-      <nokLoaded>40</nokLoaded>
-      <break>120</break>
-      <pause>120</pause>
-      <fromTime>01.01.1970T06:35:00.0</fromTime>
-      <toTime>01.01.1970T14:35:00.0</toTime>
+      <pieces>720</pieces>
+      <nokProcessed>0</nokProcessed>
+      <nokLoaded>0</nokLoaded>
+      <break>0</break>
+      <pause>0</pause>
+      <fromTime>01.01.1970T00:00:00.0</fromTime>
+      <toTime>01.01.1970T06:00:00.0</toTime>
       <comment>aa</comment>
       <userId>0</userId>
     </monitoring>

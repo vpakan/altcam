@@ -269,7 +269,7 @@ public class AssemblyMonitoring {
     GC.set(Calendar.DAY_OF_MONTH, 1);
     GC.set(Calendar.MONTH, 0);
        
-    return GC.get(Calendar.HOUR) + (GC.get(Calendar.MINUTE) / 60.0);
+    return GC.get(Calendar.HOUR_OF_DAY) + (GC.get(Calendar.MINUTE) / 60.0);
     
   }
   
